@@ -35,7 +35,7 @@ XSymbolsWidget::~XSymbolsWidget()
     delete ui;
 }
 
-void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB, bool bReload)
+void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB,bool bReload)
 {
     g_pXInfoDB=pXInfoDB;
 
