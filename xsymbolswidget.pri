@@ -13,3 +13,8 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/xsymbolswidget.cpp
+
+!contains(XCONFIG, dialogxinfodbtransferprocess) {
+    XCONFIG += dialogxinfodbtransferprocess
+    include($$PWD/../XInfoDB/dialogxinfodbtransferprocess.pri)
+}
