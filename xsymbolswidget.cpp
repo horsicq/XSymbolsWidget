@@ -22,12 +22,14 @@
 #include "ui_xsymbolswidget.h"
 
 XSymbolsWidget::XSymbolsWidget(QWidget *pParent) :
-    QWidget(pParent),
+    XShortcutsWidget(pParent),
     ui(new Ui::XSymbolsWidget)
 {
     ui->setupUi(this);
 
     g_pXInfoDB=nullptr;
+    g_pModel=nullptr;
+    g_pOldModel=nullptr;
 }
 
 XSymbolsWidget::~XSymbolsWidget()
@@ -47,5 +49,46 @@ void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB,bool bReload)
 
 void XSymbolsWidget::reload()
 {
-    // TODO
+    if(g_pXInfoDB)
+    {
+        g_pOldModel=g_pModel;
+
+        XBinary::MODE modeAddress=XBinary::getModeOS();
+
+        QList<XInfoDB::SYMBOL> *pListSymbols=g_pXInfoDB->getSymbols();
+
+        qint32 nNumberOfRecords=pListSymbols->count();
+
+        g_pModel=new QStandardItemModel(nNumberOfRecords,__HEADER_COLUMN_size);
+
+        g_pModel->setHeaderData(HEADER_COLUMN_ADDRESS,Qt::Horizontal,tr("Address"));
+
+        for(qint32 i=0;i<nNumberOfRecords;i++)
+        {
+            QStandardItem *pItemAddress=new QStandardItem;
+            pItemAddress->setText(XBinary::valueToHex(modeAddress,pListSymbols->at(i).nAddress));
+//            pItemAddress->setData(pListModules->at(i).nAddress,Qt::UserRole+USERROLE_ADDRESS);
+//            pItemAddress->setData(pListModules->at(i).nSize,Qt::UserRole+USERROLE_SIZE);
+            pItemAddress->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
+            g_pModel->setItem(i,HEADER_COLUMN_ADDRESS,pItemAddress);
+        }
+
+        ui->tableViewSymbols->setModel(g_pModel);
+
+        #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+            QFuture<void> future=QtConcurrent::run(&XSymbolsWidget::deleteOldModel,this);
+        #else
+            QFuture<void> future=QtConcurrent::run(this,&XSymbolsWidget::deleteOldModel);
+        #endif
+    }
+}
+
+void XSymbolsWidget::deleteOldModel()
+{
+    if(g_pOldModel)
+    {
+        delete g_pOldModel;
+
+        g_pOldModel=0;
+    }
 }

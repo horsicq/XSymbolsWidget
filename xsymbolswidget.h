@@ -22,15 +22,25 @@
 #define XSYMBOLSWIDGET_H
 
 #include <QWidget>
+#include <QFuture>
+#include <QtConcurrent>
+#include <QStandardItemModel>
+#include "xshortcutswidget.h"
 #include "xinfodb.h"
 
 namespace Ui {
 class XSymbolsWidget;
 }
 
-class XSymbolsWidget : public QWidget
+class XSymbolsWidget : public XShortcutsWidget
 {
     Q_OBJECT
+
+    enum HEADER_COLUMN
+    {
+        HEADER_COLUMN_ADDRESS=0,
+        __HEADER_COLUMN_size
+    };
 
 public:
     explicit XSymbolsWidget(QWidget *pParent=nullptr);
@@ -40,8 +50,13 @@ public:
     void reload();
 
 private:
+    void deleteOldModel();
+
+private:
     Ui::XSymbolsWidget *ui;
     XInfoDB *g_pXInfoDB;
+    QStandardItemModel *g_pModel;
+    QStandardItemModel *g_pOldModel;
 };
 
 #endif // XSYMBOLSWIDGET_H
