@@ -62,15 +62,32 @@ void XSymbolsWidget::reload()
         g_pModel=new QStandardItemModel(nNumberOfRecords,__HEADER_COLUMN_size);
 
         g_pModel->setHeaderData(HEADER_COLUMN_ADDRESS,Qt::Horizontal,tr("Address"));
+        g_pModel->setHeaderData(HEADER_COLUMN_SOURCE,Qt::Horizontal,tr("Source"));
+        g_pModel->setHeaderData(HEADER_COLUMN_TYPE,Qt::Horizontal,tr("Type"));
+        g_pModel->setHeaderData(HEADER_COLUMN_SYMBOL,Qt::Horizontal,tr("Symbol"));
 
         for(qint32 i=0;i<nNumberOfRecords;i++)
         {
             QStandardItem *pItemAddress=new QStandardItem;
             pItemAddress->setText(XBinary::valueToHex(modeAddress,pListSymbols->at(i).nAddress));
-//            pItemAddress->setData(pListModules->at(i).nAddress,Qt::UserRole+USERROLE_ADDRESS);
-//            pItemAddress->setData(pListModules->at(i).nSize,Qt::UserRole+USERROLE_SIZE);
+            pItemAddress->setData(pListSymbols->at(i).nAddress,Qt::UserRole+USERROLE_ADDRESS);
             pItemAddress->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
             g_pModel->setItem(i,HEADER_COLUMN_ADDRESS,pItemAddress);
+
+            QStandardItem *pItemSource=new QStandardItem;
+            pItemSource->setText(XInfoDB::symbolSourceIdToString(pListSymbols->at(i).symbolSource));
+            pItemSource->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+            g_pModel->setItem(i,HEADER_COLUMN_SOURCE,pItemSource);
+
+            QStandardItem *pItemType=new QStandardItem;
+            pItemType->setText(XInfoDB::symbolTypeIdToString(pListSymbols->at(i).symbolType));
+            pItemType->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+            g_pModel->setItem(i,HEADER_COLUMN_TYPE,pItemType);
+
+            QStandardItem *pItemSymbol=new QStandardItem;
+            pItemSymbol->setText(pListSymbols->at(i).sSymbol);
+            pItemSymbol->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+            g_pModel->setItem(i,HEADER_COLUMN_SYMBOL,pItemSymbol);
         }
 
         ui->tableViewSymbols->setModel(g_pModel);
@@ -91,4 +108,9 @@ void XSymbolsWidget::deleteOldModel()
 
         g_pOldModel=0;
     }
+}
+
+void XSymbolsWidget::registerShortcuts(bool bState)
+{
+    Q_UNUSED(bState)
 }

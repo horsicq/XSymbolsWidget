@@ -39,7 +39,15 @@ class XSymbolsWidget : public XShortcutsWidget
     enum HEADER_COLUMN
     {
         HEADER_COLUMN_ADDRESS=0,
+        HEADER_COLUMN_SOURCE,
+        HEADER_COLUMN_TYPE,
+        HEADER_COLUMN_SYMBOL,
         __HEADER_COLUMN_size
+    };
+
+    enum USERROLE
+    {
+        USERROLE_ADDRESS=0
     };
 
 public:
@@ -51,6 +59,9 @@ public:
 
 private:
     void deleteOldModel();
+
+protected:
+    virtual void registerShortcuts(bool bState);
 
 private:
     Ui::XSymbolsWidget *ui;

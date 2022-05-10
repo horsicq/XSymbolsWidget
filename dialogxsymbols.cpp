@@ -32,3 +32,13 @@ DialogXSymbols::~DialogXSymbols()
 {
     delete ui;
 }
+
+void DialogXSymbols::setXInfoDB(XInfoDB *pXInfoDB, bool bReload)
+{
+    ui->widgetSymbols->setXInfoDB(pXInfoDB,bReload);
+}
+
+void DialogXSymbols::on_pushButtonClose_clicked()
+{
+    this->close();
+}

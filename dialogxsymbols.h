@@ -22,6 +22,7 @@
 #define DIALOGXSYMBOLS_H
 
 #include <QDialog>
+#include "xinfodb.h"
 
 namespace Ui {
 class DialogXSymbols;
@@ -34,6 +35,11 @@ class DialogXSymbols : public QDialog
 public:
     explicit DialogXSymbols(QWidget *pParent=nullptr);
     ~DialogXSymbols();
+
+    void setXInfoDB(XInfoDB *pXInfoDB,bool bReload=true);
+
+private slots:
+    void on_pushButtonClose_clicked();
 
 private:
     Ui::DialogXSymbols *ui;
