@@ -33,7 +33,7 @@ DialogXSymbols::~DialogXSymbols()
     delete ui;
 }
 
-void DialogXSymbols::setXInfoDB(XInfoDB *pXInfoDB, bool bReload)
+void DialogXSymbols::setXInfoDB(XInfoDB *pXInfoDB,bool bReload)
 {
     ui->widgetSymbols->setXInfoDB(pXInfoDB,bReload);
 }
