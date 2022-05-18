@@ -39,6 +39,7 @@ class XSymbolsWidget : public XShortcutsWidget
     enum HEADER_COLUMN
     {
         HEADER_COLUMN_ADDRESS=0,
+        HEADER_COLUMN_SIZE,
         HEADER_COLUMN_SOURCE,
         HEADER_COLUMN_TYPE,
         HEADER_COLUMN_SYMBOL,
@@ -47,7 +48,8 @@ class XSymbolsWidget : public XShortcutsWidget
 
     enum USERROLE
     {
-        USERROLE_ADDRESS=0
+        USERROLE_ADDRESS=0,
+        USERROLE_SIZE
     };
 
 public:

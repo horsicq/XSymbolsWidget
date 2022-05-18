@@ -61,7 +61,9 @@ void XSymbolsWidget::reload()
 
         g_pModel=new QStandardItemModel(nNumberOfRecords,__HEADER_COLUMN_size);
 
+        // TODO Check if address virtual
         g_pModel->setHeaderData(HEADER_COLUMN_ADDRESS,Qt::Horizontal,tr("Address"));
+        g_pModel->setHeaderData(HEADER_COLUMN_SIZE,Qt::Horizontal,tr("Size"));
         g_pModel->setHeaderData(HEADER_COLUMN_SOURCE,Qt::Horizontal,tr("Source"));
         g_pModel->setHeaderData(HEADER_COLUMN_TYPE,Qt::Horizontal,tr("Type"));
         g_pModel->setHeaderData(HEADER_COLUMN_SYMBOL,Qt::Horizontal,tr("Symbol"));
@@ -71,8 +73,14 @@ void XSymbolsWidget::reload()
             QStandardItem *pItemAddress=new QStandardItem;
             pItemAddress->setText(XBinary::valueToHex(modeAddress,pListSymbols->at(i).nAddress));
             pItemAddress->setData(pListSymbols->at(i).nAddress,Qt::UserRole+USERROLE_ADDRESS);
+            pItemAddress->setData(pListSymbols->at(i).nSize,Qt::UserRole+USERROLE_SIZE);
             pItemAddress->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
             g_pModel->setItem(i,HEADER_COLUMN_ADDRESS,pItemAddress);
+
+            QStandardItem *pItemSize=new QStandardItem;
+            pItemSize->setText(XBinary::valueToHex(modeAddress,pListSymbols->at(i).nSize));
+            pItemSize->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
+            g_pModel->setItem(i,HEADER_COLUMN_SIZE,pItemSize);
 
             QStandardItem *pItemSource=new QStandardItem;
             pItemSource->setText(XInfoDB::symbolSourceIdToString(pListSymbols->at(i).symbolSource));
