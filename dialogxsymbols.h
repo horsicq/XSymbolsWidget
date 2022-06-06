@@ -23,12 +23,13 @@
 
 #include <QDialog>
 #include "xinfodb.h"
+#include "xshortcutsdialog.h"
 
 namespace Ui {
 class DialogXSymbols;
 }
 
-class DialogXSymbols : public QDialog
+class DialogXSymbols : public XShortcutsDialog
 {
     Q_OBJECT
 

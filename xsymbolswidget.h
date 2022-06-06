@@ -65,6 +65,9 @@ private:
 protected:
     virtual void registerShortcuts(bool bState);
 
+private slots:
+    void on_pushButtonSaveSymbols_clicked();
+
 private:
     Ui::XSymbolsWidget *ui;
     XInfoDB *g_pXInfoDB;

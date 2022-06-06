@@ -22,7 +22,7 @@
 #include "ui_dialogxsymbols.h"
 
 DialogXSymbols::DialogXSymbols(QWidget *pParent) :
-    QDialog(pParent),
+    XShortcutsDialog(pParent),
     ui(new Ui::DialogXSymbols)
 {
     ui->setupUi(this);
