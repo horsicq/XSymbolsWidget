@@ -100,21 +100,7 @@ void XSymbolsWidget::reload()
 
         ui->tableViewSymbols->setModel(g_pModel);
 
-        #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-            QFuture<void> future=QtConcurrent::run(&XSymbolsWidget::deleteOldModel,this);
-        #else
-            QFuture<void> future=QtConcurrent::run(this,&XSymbolsWidget::deleteOldModel);
-        #endif
-    }
-}
-
-void XSymbolsWidget::deleteOldModel()
-{
-    if(g_pOldModel)
-    {
-        delete g_pOldModel;
-
-        g_pOldModel=0;
+        deleteOldModel(&g_pOldModel);
     }
 }
 
