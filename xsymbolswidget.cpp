@@ -100,7 +100,7 @@ void XSymbolsWidget::reload()
 
         ui->tableViewSymbols->setModel(g_pModel);
 
-        deleteOldModel(&g_pOldModel);
+        deleteOldStandardModel(&g_pOldModel);
     }
 }
 
