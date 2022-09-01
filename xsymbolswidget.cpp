@@ -43,11 +43,11 @@ void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB,bool bReload)
 
     if(bReload)
     {
-        reload();
+        reload(true);
     }
 }
 
-void XSymbolsWidget::reload()
+void XSymbolsWidget::reload(bool bSymbols)
 {
     if(g_pXInfoDB)
     {
@@ -57,16 +57,21 @@ void XSymbolsWidget::reload()
 
         QList<XInfoDB::SYMBOL> *pListSymbols=g_pXInfoDB->getSymbols();
 
-        qint32 nNumberOfRecords=pListSymbols->count();
+        qint32 nNumberOfRecords=0;
+
+        if(bSymbols)
+        {
+            nNumberOfRecords=pListSymbols->count();
+        }
 
         g_pModel=new QStandardItemModel(nNumberOfRecords,__HEADER_COLUMN_size);
 
         // TODO Check if address virtual
-        g_pModel->setHeaderData(HEADER_COLUMN_ADDRESS,Qt::Horizontal,tr("Address"));
-        g_pModel->setHeaderData(HEADER_COLUMN_SIZE,Qt::Horizontal,tr("Size"));
-        g_pModel->setHeaderData(HEADER_COLUMN_SOURCE,Qt::Horizontal,tr("Source"));
-        g_pModel->setHeaderData(HEADER_COLUMN_TYPE,Qt::Horizontal,tr("Type"));
-        g_pModel->setHeaderData(HEADER_COLUMN_SYMBOL,Qt::Horizontal,tr("Symbol"));
+        g_pModel->setHeaderData(HEADER_COLUMN_ADDRESS,  Qt::Horizontal,tr("Address"));
+        g_pModel->setHeaderData(HEADER_COLUMN_SIZE,     Qt::Horizontal,tr("Size"));
+        g_pModel->setHeaderData(HEADER_COLUMN_SOURCE,   Qt::Horizontal,tr("Source"));
+        g_pModel->setHeaderData(HEADER_COLUMN_TYPE,     Qt::Horizontal,tr("Type"));
+        g_pModel->setHeaderData(HEADER_COLUMN_SYMBOL,   Qt::Horizontal,tr("Symbol"));
 
         for(qint32 i=0;i<nNumberOfRecords;i++)
         {
@@ -115,4 +120,14 @@ void XSymbolsWidget::on_pushButtonSaveSymbols_clicked()
     {
         XShortcutsWidget::saveModel(g_pModel,XBinary::getResultFileName(g_pXInfoDB->getDevice(),QString("%1.txt").arg(tr("Symbols"))));
     }
+}
+
+void XSymbolsWidget::on_pushButtonReloadSymbols_clicked()
+{
+    reload(true);
+}
+
+void XSymbolsWidget::on_pushButtonClearSymbols_clicked()
+{
+    reload(false);
 }

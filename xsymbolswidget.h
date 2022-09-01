@@ -57,13 +57,15 @@ public:
     ~XSymbolsWidget();
 
     void setXInfoDB(XInfoDB *pXInfoDB,bool bReload=true);
-    void reload();
+    void reload(bool bSymbols);
 
 protected:
     virtual void registerShortcuts(bool bState);
 
 private slots:
     void on_pushButtonSaveSymbols_clicked();
+    void on_pushButtonReloadSymbols_clicked();
+    void on_pushButtonClearSymbols_clicked();
 
 private:
     Ui::XSymbolsWidget *ui;
