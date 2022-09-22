@@ -21,7 +21,6 @@
 #ifndef DIALOGXSYMBOLS_H
 #define DIALOGXSYMBOLS_H
 
-#include <QDialog>
 #include "xinfodb.h"
 #include "xshortcutsdialog.h"
 

@@ -47,7 +47,7 @@ void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB,bool bReload)
     }
 }
 
-void XSymbolsWidget::reload(bool bSymbols)
+void XSymbolsWidget::reload(bool bLoadSymbols)
 {
     if(g_pXInfoDB)
     {
@@ -59,7 +59,7 @@ void XSymbolsWidget::reload(bool bSymbols)
 
         qint32 nNumberOfRecords=0;
 
-        if(bSymbols)
+        if(bLoadSymbols)
         {
             nNumberOfRecords=pListSymbols->count();
         }

@@ -57,7 +57,7 @@ public:
     ~XSymbolsWidget();
 
     void setXInfoDB(XInfoDB *pXInfoDB,bool bReload=true);
-    void reload(bool bSymbols);
+    void reload(bool bLoadSymbols);
 
 protected:
     virtual void registerShortcuts(bool bState);
