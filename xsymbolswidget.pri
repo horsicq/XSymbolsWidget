@@ -1,10 +1,6 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
-FORMS += \
-    $$PWD/dialogxsymbols.ui \
-    $$PWD/xsymbolswidget.ui
-
 HEADERS += \
     $$PWD/dialogxsymbols.h \
     $$PWD/xsymbolswidget.h
@@ -12,6 +8,10 @@ HEADERS += \
 SOURCES += \
     $$PWD/dialogxsymbols.cpp \
     $$PWD/xsymbolswidget.cpp
+
+FORMS += \
+    $$PWD/dialogxsymbols.ui \
+    $$PWD/xsymbolswidget.ui
 
 !contains(XCONFIG, dialogxinfodbtransferprocess) {
     XCONFIG += dialogxinfodbtransferprocess
