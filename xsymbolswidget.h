@@ -21,10 +21,10 @@
 #ifndef XSYMBOLSWIDGET_H
 #define XSYMBOLSWIDGET_H
 
-#include <QWidget>
 #include <QFuture>
-#include <QtConcurrent>
 #include <QStandardItemModel>
+#include <QWidget>
+#include <QtConcurrent>
 #include "xshortcutswidget.h"
 #include "xinfodb.h"
 
