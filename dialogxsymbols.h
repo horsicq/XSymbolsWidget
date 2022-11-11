@@ -28,16 +28,15 @@ namespace Ui {
 class DialogXSymbols;
 }
 
-class DialogXSymbols : public XShortcutsDialog
-{
+class DialogXSymbols : public XShortcutsDialog {
     Q_OBJECT
 
 public:
     // TODO constructor with params
-    explicit DialogXSymbols(QWidget *pParent=nullptr);
+    explicit DialogXSymbols(QWidget *pParent = nullptr);
     ~DialogXSymbols();
 
-    void setXInfoDB(XInfoDB *pXInfoDB,bool bReload=true);
+    void setXInfoDB(XInfoDB *pXInfoDB, bool bReload = true);
 
 private slots:
     void on_pushButtonClose_clicked();
@@ -46,4 +45,4 @@ private:
     Ui::DialogXSymbols *ui;
 };
 
-#endif // DIALOGXSYMBOLS_H
+#endif  // DIALOGXSYMBOLS_H

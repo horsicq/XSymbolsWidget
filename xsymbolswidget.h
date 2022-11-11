@@ -25,20 +25,19 @@
 #include <QStandardItemModel>
 #include <QWidget>
 #include <QtConcurrent>
-#include "xshortcutswidget.h"
+
 #include "xinfodb.h"
+#include "xshortcutswidget.h"
 
 namespace Ui {
 class XSymbolsWidget;
 }
 
-class XSymbolsWidget : public XShortcutsWidget
-{
+class XSymbolsWidget : public XShortcutsWidget {
     Q_OBJECT
 
-    enum HEADER_COLUMN
-    {
-        HEADER_COLUMN_ADDRESS=0,
+    enum HEADER_COLUMN {
+        HEADER_COLUMN_ADDRESS = 0,
         HEADER_COLUMN_SIZE,
         HEADER_COLUMN_SOURCE,
         HEADER_COLUMN_TYPE,
@@ -46,17 +45,16 @@ class XSymbolsWidget : public XShortcutsWidget
         __HEADER_COLUMN_size
     };
 
-    enum USERROLE
-    {
-        USERROLE_ADDRESS=0,
+    enum USERROLE {
+        USERROLE_ADDRESS = 0,
         USERROLE_SIZE
     };
 
 public:
-    explicit XSymbolsWidget(QWidget *pParent=nullptr);
+    explicit XSymbolsWidget(QWidget *pParent = nullptr);
     ~XSymbolsWidget();
 
-    void setXInfoDB(XInfoDB *pXInfoDB,bool bReload=true);
+    void setXInfoDB(XInfoDB *pXInfoDB, bool bReload = true);
     void reload(bool bLoadSymbols);
 
 protected:
@@ -74,4 +72,4 @@ private:
     QStandardItemModel *g_pOldModel;
 };
 
-#endif // XSYMBOLSWIDGET_H
+#endif  // XSYMBOLSWIDGET_H
