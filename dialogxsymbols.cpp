@@ -22,18 +22,22 @@
 
 #include "ui_dialogxsymbols.h"
 
-DialogXSymbols::DialogXSymbols(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogXSymbols) {
+DialogXSymbols::DialogXSymbols(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogXSymbols)
+{
     ui->setupUi(this);
 }
 
-DialogXSymbols::~DialogXSymbols() {
+DialogXSymbols::~DialogXSymbols()
+{
     delete ui;
 }
 
-void DialogXSymbols::setXInfoDB(XInfoDB *pXInfoDB, bool bReload) {
+void DialogXSymbols::setXInfoDB(XInfoDB *pXInfoDB, bool bReload)
+{
     ui->widgetSymbols->setXInfoDB(pXInfoDB, bReload);
 }
 
-void DialogXSymbols::on_pushButtonClose_clicked() {
+void DialogXSymbols::on_pushButtonClose_clicked()
+{
     this->close();
 }

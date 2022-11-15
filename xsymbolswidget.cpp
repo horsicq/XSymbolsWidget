@@ -22,7 +22,8 @@
 
 #include "ui_xsymbolswidget.h"
 
-XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XSymbolsWidget) {
+XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XSymbolsWidget)
+{
     ui->setupUi(this);
 
     g_pXInfoDB = nullptr;
@@ -30,11 +31,13 @@ XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
     g_pOldModel = nullptr;
 }
 
-XSymbolsWidget::~XSymbolsWidget() {
+XSymbolsWidget::~XSymbolsWidget()
+{
     delete ui;
 }
 
-void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB, bool bReload) {
+void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB, bool bReload)
+{
     g_pXInfoDB = pXInfoDB;
 
     if (bReload) {
@@ -42,7 +45,8 @@ void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB, bool bReload) {
     }
 }
 
-void XSymbolsWidget::reload(bool bLoadSymbols) {
+void XSymbolsWidget::reload(bool bLoadSymbols)
+{
     if (g_pXInfoDB) {
         g_pOldModel = g_pModel;
 
@@ -100,20 +104,24 @@ void XSymbolsWidget::reload(bool bLoadSymbols) {
     }
 }
 
-void XSymbolsWidget::registerShortcuts(bool bState) {
+void XSymbolsWidget::registerShortcuts(bool bState)
+{
     Q_UNUSED(bState)
 }
 
-void XSymbolsWidget::on_pushButtonSaveSymbols_clicked() {
+void XSymbolsWidget::on_pushButtonSaveSymbols_clicked()
+{
     if (g_pModel) {
         XShortcutsWidget::saveModel(g_pModel, XBinary::getResultFileName(g_pXInfoDB->getDevice(), QString("%1.txt").arg(tr("Symbols"))));
     }
 }
 
-void XSymbolsWidget::on_pushButtonReloadSymbols_clicked() {
+void XSymbolsWidget::on_pushButtonReloadSymbols_clicked()
+{
     reload(true);
 }
 
-void XSymbolsWidget::on_pushButtonClearSymbols_clicked() {
+void XSymbolsWidget::on_pushButtonClearSymbols_clicked()
+{
     reload(false);
 }
