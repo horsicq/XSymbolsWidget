@@ -22,7 +22,8 @@
 
 #include "ui_xsymbolswidget.h"
 
-XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XSymbolsWidget)
+XSymbolsWidget::XSymbolsWidget(QWidget *pParent)
+    : XShortcutsWidget(pParent), ui(new Ui::XSymbolsWidget)
 {
     ui->setupUi(this);
 
