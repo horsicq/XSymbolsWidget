@@ -112,7 +112,7 @@ void XSymbolsWidget::registerShortcuts(bool bState)
 void XSymbolsWidget::on_pushButtonSaveSymbols_clicked()
 {
     if (g_pModel) {
-        XShortcutsWidget::saveModel(g_pModel, XBinary::getResultFileName(g_pXInfoDB->getDevice(), QString("%1.txt").arg(tr("Symbols"))));
+        XShortcutsWidget::saveTableModel(g_pModel, XBinary::getResultFileName(g_pXInfoDB->getDevice(), QString("%1.txt").arg(tr("Symbols"))));
     }
 }
 
