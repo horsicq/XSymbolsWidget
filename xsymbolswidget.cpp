@@ -1,4 +1,4 @@
-/* Copyright (c) 2022 hors<horsicq@gmail.com>
+/* Copyright (c) 2023 hors<horsicq@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,12 +52,12 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
 
         XBinary::MODE modeAddress = XBinary::getModeOS();
 
-        QList<XInfoDB::SYMBOL> *pListSymbols = g_pXInfoDB->getSymbols();
+        QList<XInfoDB::SYMBOL> listSymbols = g_pXInfoDB->getSymbols();
 
         qint32 nNumberOfRecords = 0;
 
         if (bLoadSymbols) {
-            nNumberOfRecords = pListSymbols->count();
+            nNumberOfRecords = listSymbols.count();
         }
 
         g_pModel = new QStandardItemModel(nNumberOfRecords, __HEADER_COLUMN_size);
@@ -71,25 +71,25 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
 
         for (qint32 i = 0; i < nNumberOfRecords; i++) {
             QStandardItem *pItemAddress = new QStandardItem;
-            pItemAddress->setText(XBinary::valueToHex(modeAddress, pListSymbols->at(i).nAddress));
-            pItemAddress->setData(pListSymbols->at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
-            pItemAddress->setData(pListSymbols->at(i).nSize, Qt::UserRole + USERROLE_SIZE);
+            pItemAddress->setText(XBinary::valueToHex(modeAddress, listSymbols.at(i).nAddress));
+            pItemAddress->setData(listSymbols.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
+            pItemAddress->setData(listSymbols.at(i).nSize, Qt::UserRole + USERROLE_SIZE);
             g_pModel->setItem(i, HEADER_COLUMN_ADDRESS, pItemAddress);
 
             QStandardItem *pItemSize = new QStandardItem;
-            pItemSize->setText(XBinary::valueToHex(modeAddress, pListSymbols->at(i).nSize));
+            pItemSize->setText(XBinary::valueToHex(modeAddress, listSymbols.at(i).nSize));
             g_pModel->setItem(i, HEADER_COLUMN_SIZE, pItemSize);
 
             QStandardItem *pItemSource = new QStandardItem;
-            pItemSource->setText(XInfoDB::symbolSourceIdToString(pListSymbols->at(i).symbolSource));
+            pItemSource->setText(XInfoDB::symbolSourceIdToString(listSymbols.at(i).symbolSource));
             g_pModel->setItem(i, HEADER_COLUMN_SOURCE, pItemSource);
 
             QStandardItem *pItemType = new QStandardItem;
-            pItemType->setText(XInfoDB::symbolTypeIdToString(pListSymbols->at(i).symbolType));
+            pItemType->setText(XInfoDB::symbolTypeIdToString(listSymbols.at(i).symbolType));
             g_pModel->setItem(i, HEADER_COLUMN_TYPE, pItemType);
 
             QStandardItem *pItemSymbol = new QStandardItem;
-            pItemSymbol->setText(pListSymbols->at(i).sSymbol);
+            pItemSymbol->setText(listSymbols.at(i).sSymbol);
             g_pModel->setItem(i, HEADER_COLUMN_SYMBOL, pItemSymbol);
         }
 
