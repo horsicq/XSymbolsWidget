@@ -29,6 +29,9 @@ XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
     g_pXInfoDB = nullptr;
     g_pModel = nullptr;
     g_pOldModel = nullptr;
+
+    connect(ui->tableViewSymbols->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this,
+            SLOT(onTableView_currentRowChanged(QModelIndex, QModelIndex)));
 }
 
 XSymbolsWidget::~XSymbolsWidget()
@@ -125,4 +128,13 @@ void XSymbolsWidget::on_pushButtonReloadSymbols_clicked()
 void XSymbolsWidget::on_pushButtonClearSymbols_clicked()
 {
     reload(false);
+}
+
+void XSymbolsWidget::onTableView_currentRowChanged(const QModelIndex &current, const QModelIndex &previous)
+{
+    Q_UNUSED(previous)
+
+    qint32 nRow = current.row();
+
+    // TODO
 }

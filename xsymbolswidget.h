@@ -64,6 +64,7 @@ private slots:
     void on_pushButtonSaveSymbols_clicked();
     void on_pushButtonReloadSymbols_clicked();
     void on_pushButtonClearSymbols_clicked();
+    void onTableView_currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
     Ui::XSymbolsWidget *ui;
