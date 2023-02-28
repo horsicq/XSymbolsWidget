@@ -41,6 +41,9 @@ public:
 private slots:
     void on_pushButtonClose_clicked();
 
+signals:
+    void currentSymbolChanged(XADDR nAddress, qint64 nSize);
+
 private:
     Ui::DialogXSymbols *ui;
 };

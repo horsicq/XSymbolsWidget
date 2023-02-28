@@ -29,9 +29,6 @@ XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
     g_pXInfoDB = nullptr;
     g_pModel = nullptr;
     g_pOldModel = nullptr;
-
-    connect(ui->tableViewSymbols->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this,
-            SLOT(onTableView_currentRowChanged(QModelIndex, QModelIndex)));
 }
 
 XSymbolsWidget::~XSymbolsWidget()
@@ -104,6 +101,9 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
 
         ui->tableViewSymbols->setModel(g_pModel);
 
+        connect(ui->tableViewSymbols->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this,
+                SLOT(onTableView_currentRowChanged(QModelIndex, QModelIndex)));
+
         deleteOldStandardModel(&g_pOldModel);
     }
 }
@@ -134,7 +134,10 @@ void XSymbolsWidget::onTableView_currentRowChanged(const QModelIndex &current, c
 {
     Q_UNUSED(previous)
 
-    qint32 nRow = current.row();
+    QModelIndex index = ui->tableViewSymbols->model()->index(current.row(), 0);
 
-    // TODO
+    XADDR nAddress = ui->tableViewSymbols->model()->data(index, Qt::UserRole + USERROLE_ADDRESS).toULongLong();
+    qint64 nSize = ui->tableViewSymbols->model()->data(index, Qt::UserRole + USERROLE_SIZE).toULongLong();
+
+    emit currentSymbolChanged(nAddress, nSize);
 }

@@ -57,6 +57,9 @@ public:
     void setXInfoDB(XInfoDB *pXInfoDB, bool bReload = true);
     void reload(bool bLoadSymbols);
 
+signals:
+    void currentSymbolChanged(XADDR nAddress, qint64 nSize);
+
 protected:
     virtual void registerShortcuts(bool bState);
 

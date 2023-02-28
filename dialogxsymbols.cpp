@@ -25,6 +25,8 @@
 DialogXSymbols::DialogXSymbols(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogXSymbols)
 {
     ui->setupUi(this);
+
+    connect(ui->widgetSymbols, SIGNAL(currentSymbolChanged(XADDR, qint64)), this, SIGNAL(currentSymbolChanged(XADDR, qint64)));
 }
 
 DialogXSymbols::~DialogXSymbols()
