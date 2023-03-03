@@ -50,7 +50,7 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
     if (g_pXInfoDB) {
         g_pOldModel = g_pModel;
 
-        XBinary::MODE modeAddress = XBinary::getModeOS();
+        //XBinary::MODE modeAddress = XBinary::getModeOS();
 
         QList<XInfoDB::SYMBOL> listSymbols = g_pXInfoDB->getSymbols();
 
@@ -71,13 +71,13 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
 
         for (qint32 i = 0; i < nNumberOfRecords; i++) {
             QStandardItem *pItemAddress = new QStandardItem;
-            pItemAddress->setText(XBinary::valueToHex(modeAddress, listSymbols.at(i).nAddress));
+            pItemAddress->setText(XBinary::valueToHexEx(listSymbols.at(i).nAddress));
             pItemAddress->setData(listSymbols.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
             pItemAddress->setData(listSymbols.at(i).nSize, Qt::UserRole + USERROLE_SIZE);
             g_pModel->setItem(i, HEADER_COLUMN_ADDRESS, pItemAddress);
 
             QStandardItem *pItemSize = new QStandardItem;
-            pItemSize->setText(XBinary::valueToHex(modeAddress, listSymbols.at(i).nSize));
+            pItemSize->setText(XBinary::valueToHexEx(listSymbols.at(i).nSize));
             g_pModel->setItem(i, HEADER_COLUMN_SIZE, pItemSize);
 
             QStandardItem *pItemSource = new QStandardItem;
@@ -100,6 +100,8 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
         XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_SYMBOL, Qt::AlignLeft | Qt::AlignVCenter);
 
         ui->tableViewSymbols->setModel(g_pModel);
+
+        ui->tableViewSymbols->setColumnWidth(0, 120);  // TODO
 
         connect(ui->tableViewSymbols->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this,
                 SLOT(onTableView_currentRowChanged(QModelIndex, QModelIndex)));
