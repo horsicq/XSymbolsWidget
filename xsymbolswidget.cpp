@@ -50,7 +50,7 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
     if (g_pXInfoDB) {
         g_pOldModel = g_pModel;
 
-        //XBinary::MODE modeAddress = XBinary::getModeOS();
+        // XBinary::MODE modeAddress = XBinary::getModeOS();
 
         QList<XInfoDB::SYMBOL> listSymbols = g_pXInfoDB->getSymbols();
 
