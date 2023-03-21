@@ -64,29 +64,20 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
 
         // TODO Check if address virtual
         g_pModel->setHeaderData(HEADER_COLUMN_ADDRESS, Qt::Horizontal, tr("Address"));
-        g_pModel->setHeaderData(HEADER_COLUMN_SIZE, Qt::Horizontal, tr("Size"));
-        g_pModel->setHeaderData(HEADER_COLUMN_SOURCE, Qt::Horizontal, tr("Source"));
-        g_pModel->setHeaderData(HEADER_COLUMN_TYPE, Qt::Horizontal, tr("Type"));
+        g_pModel->setHeaderData(HEADER_COLUMN_MODULE, Qt::Horizontal, tr("Module"));
         g_pModel->setHeaderData(HEADER_COLUMN_SYMBOL, Qt::Horizontal, tr("Symbol"));
 
         for (qint32 i = 0; i < nNumberOfRecords; i++) {
             QStandardItem *pItemAddress = new QStandardItem;
             pItemAddress->setText(XBinary::valueToHexEx(listSymbols.at(i).nAddress));
             pItemAddress->setData(listSymbols.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
-            pItemAddress->setData(listSymbols.at(i).nSize, Qt::UserRole + USERROLE_SIZE);
+//            pItemAddress->setData(listSymbols.at(i).nSize, Qt::UserRole + USERROLE_SIZE);
             g_pModel->setItem(i, HEADER_COLUMN_ADDRESS, pItemAddress);
 
-            QStandardItem *pItemSize = new QStandardItem;
-            pItemSize->setText(XBinary::valueToHexEx(listSymbols.at(i).nSize));
-            g_pModel->setItem(i, HEADER_COLUMN_SIZE, pItemSize);
-
-            QStandardItem *pItemSource = new QStandardItem;
-            pItemSource->setText(XInfoDB::symbolSourceIdToString(listSymbols.at(i).symbolSource));
-            g_pModel->setItem(i, HEADER_COLUMN_SOURCE, pItemSource);
-
-            QStandardItem *pItemType = new QStandardItem;
-            pItemType->setText(XInfoDB::symbolTypeIdToString(listSymbols.at(i).symbolType));
-            g_pModel->setItem(i, HEADER_COLUMN_TYPE, pItemType);
+            // TODO
+//            QStandardItem *pItemModule = new QStandardItem;
+//            pItemModule->setText(XInfoDB::symbolTypeIdToString(listSymbols.at(i).symbolType));
+//            g_pModel->setItem(i, HEADER_COLUMN_MODULE, pItemModule);
 
             QStandardItem *pItemSymbol = new QStandardItem;
             pItemSymbol->setText(listSymbols.at(i).sSymbol);
@@ -94,9 +85,9 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
         }
 
         XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_ADDRESS, Qt::AlignRight | Qt::AlignVCenter);
-        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_SIZE, Qt::AlignRight | Qt::AlignVCenter);
-        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_SOURCE, Qt::AlignLeft | Qt::AlignVCenter);
-        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_TYPE, Qt::AlignLeft | Qt::AlignVCenter);
+        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_MODULE, Qt::AlignLeft | Qt::AlignVCenter);
+//        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_SOURCE, Qt::AlignLeft | Qt::AlignVCenter);
+//        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_TYPE, Qt::AlignLeft | Qt::AlignVCenter);
         XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_SYMBOL, Qt::AlignLeft | Qt::AlignVCenter);
 
         ui->tableViewSymbols->setModel(g_pModel);
