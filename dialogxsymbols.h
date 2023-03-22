@@ -23,6 +23,7 @@
 
 #include "xinfodb.h"
 #include "xshortcutsdialog.h"
+#include "xsymbolswidget.h"
 
 namespace Ui {
 class DialogXSymbols;
@@ -36,7 +37,7 @@ public:
     explicit DialogXSymbols(QWidget *pParent = nullptr);
     ~DialogXSymbols();
 
-    void setXInfoDB(XInfoDB *pXInfoDB, bool bReload = true);
+    void setData(XInfoDB *pXInfoDB, XSymbolsWidget::MODE mode, QVariant varValue, bool bReload = true);
 
 private slots:
     void on_pushButtonClose_clicked();

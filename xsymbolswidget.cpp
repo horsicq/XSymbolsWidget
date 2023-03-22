@@ -29,6 +29,7 @@ XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
     g_pXInfoDB = nullptr;
     g_pModel = nullptr;
     g_pOldModel = nullptr;
+    g_mode = MODE_ALL;
 }
 
 XSymbolsWidget::~XSymbolsWidget()
@@ -36,9 +37,11 @@ XSymbolsWidget::~XSymbolsWidget()
     delete ui;
 }
 
-void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB, bool bReload)
+void XSymbolsWidget::setData(XInfoDB *pXInfoDB, MODE mode, QVariant varValue, bool bReload)
 {
     g_pXInfoDB = pXInfoDB;
+    g_mode = mode;
+    g_varValue = varValue;
 
     if (bReload) {
         reload(true);
@@ -52,7 +55,13 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
 
         // XBinary::MODE modeAddress = XBinary::getModeOS();
 
-        QList<XInfoDB::SYMBOL> listSymbols = g_pXInfoDB->getSymbols();
+        QList<XInfoDB::SYMBOL> listSymbols;
+
+        if (g_mode == MODE_ALL) {
+            listSymbols = g_pXInfoDB->getAllSymbols();
+        } else if (g_mode == MODE_REFERENCES) {
+//            listSymbols = g_pXInfoDB->getReferencesForAddress(g_varValue.toULongLong());
+        }
 
         qint32 nNumberOfRecords = 0;
 
@@ -111,16 +120,6 @@ void XSymbolsWidget::on_pushButtonSaveSymbols_clicked()
     if (g_pModel) {
         XShortcutsWidget::saveTableModel(g_pModel, XBinary::getResultFileName(g_pXInfoDB->getDevice(), QString("%1.txt").arg(tr("Symbols"))));
     }
-}
-
-void XSymbolsWidget::on_pushButtonReloadSymbols_clicked()
-{
-    reload(true);
-}
-
-void XSymbolsWidget::on_pushButtonClearSymbols_clicked()
-{
-    reload(false);
 }
 
 void XSymbolsWidget::onTableView_currentRowChanged(const QModelIndex &current, const QModelIndex &previous)

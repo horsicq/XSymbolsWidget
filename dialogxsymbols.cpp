@@ -34,9 +34,9 @@ DialogXSymbols::~DialogXSymbols()
     delete ui;
 }
 
-void DialogXSymbols::setXInfoDB(XInfoDB *pXInfoDB, bool bReload)
+void DialogXSymbols::setData(XInfoDB *pXInfoDB, XSymbolsWidget::MODE mode, QVariant varValue, bool bReload)
 {
-    ui->widgetSymbols->setXInfoDB(pXInfoDB, bReload);
+    ui->widgetSymbols->setData(pXInfoDB, mode, varValue, bReload);
 }
 
 void DialogXSymbols::on_pushButtonClose_clicked()

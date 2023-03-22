@@ -52,10 +52,16 @@ class XSymbolsWidget : public XShortcutsWidget {
     };
 
 public:
+
+    enum MODE {
+        MODE_ALL = 0,
+        MODE_REFERENCES
+    };
+
     explicit XSymbolsWidget(QWidget *pParent = nullptr);
     ~XSymbolsWidget();
 
-    void setXInfoDB(XInfoDB *pXInfoDB, bool bReload = true);
+    void setData(XInfoDB *pXInfoDB, MODE mode, QVariant varValue, bool bReload = true);
     void reload(bool bLoadSymbols);
 
 signals:
@@ -66,13 +72,13 @@ protected:
 
 private slots:
     void on_pushButtonSaveSymbols_clicked();
-    void on_pushButtonReloadSymbols_clicked();
-    void on_pushButtonClearSymbols_clicked();
     void onTableView_currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
     Ui::XSymbolsWidget *ui;
     XInfoDB *g_pXInfoDB;
+    MODE g_mode;
+    QVariant g_varValue;
     QStandardItemModel *g_pModel;
     QStandardItemModel *g_pOldModel;
 };
