@@ -61,7 +61,7 @@ public:
     explicit XSymbolsWidget(QWidget *pParent = nullptr);
     ~XSymbolsWidget();
 
-    void setData(XInfoDB *pXInfoDB, MODE mode, QVariant varValue, bool bReload = true);
+    void setData(XInfoDB *pXInfoDB, MODE mode = MODE_ALL, QVariant varValue = QVariant(), bool bReload = true);
     void reload(bool bLoadSymbols);
 
 signals:
