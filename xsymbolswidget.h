@@ -39,9 +39,9 @@ class XSymbolsWidget : public XShortcutsWidget {
     enum HEADER_COLUMN {
         HEADER_COLUMN_ADDRESS = 0,
         HEADER_COLUMN_MODULE,
-//        HEADER_COLUMN_SIZE,
-//        HEADER_COLUMN_SOURCE,
-//        HEADER_COLUMN_TYPE,
+        //        HEADER_COLUMN_SIZE,
+        //        HEADER_COLUMN_SOURCE,
+        //        HEADER_COLUMN_TYPE,
         HEADER_COLUMN_SYMBOL,
         __HEADER_COLUMN_size
     };
@@ -52,7 +52,6 @@ class XSymbolsWidget : public XShortcutsWidget {
     };
 
 public:
-
     enum MODE {
         MODE_ALL = 0,
         MODE_REFERENCES

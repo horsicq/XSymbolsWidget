@@ -60,7 +60,7 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
         if (g_mode == MODE_ALL) {
             listSymbols = g_pXInfoDB->getAllSymbols();
         } else if (g_mode == MODE_REFERENCES) {
-//            listSymbols = g_pXInfoDB->getReferencesForAddress(g_varValue.toULongLong());
+            //            listSymbols = g_pXInfoDB->getReferencesForAddress(g_varValue.toULongLong());
         }
 
         qint32 nNumberOfRecords = 0;
@@ -80,13 +80,13 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
             QStandardItem *pItemAddress = new QStandardItem;
             pItemAddress->setText(XBinary::valueToHexEx(listSymbols.at(i).nAddress));
             pItemAddress->setData(listSymbols.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
-//            pItemAddress->setData(listSymbols.at(i).nSize, Qt::UserRole + USERROLE_SIZE);
+            //            pItemAddress->setData(listSymbols.at(i).nSize, Qt::UserRole + USERROLE_SIZE);
             g_pModel->setItem(i, HEADER_COLUMN_ADDRESS, pItemAddress);
 
             // TODO
-//            QStandardItem *pItemModule = new QStandardItem;
-//            pItemModule->setText(XInfoDB::symbolTypeIdToString(listSymbols.at(i).symbolType));
-//            g_pModel->setItem(i, HEADER_COLUMN_MODULE, pItemModule);
+            //            QStandardItem *pItemModule = new QStandardItem;
+            //            pItemModule->setText(XInfoDB::symbolTypeIdToString(listSymbols.at(i).symbolType));
+            //            g_pModel->setItem(i, HEADER_COLUMN_MODULE, pItemModule);
 
             QStandardItem *pItemSymbol = new QStandardItem;
             pItemSymbol->setText(listSymbols.at(i).sSymbol);
@@ -95,8 +95,8 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
 
         XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_ADDRESS, Qt::AlignRight | Qt::AlignVCenter);
         XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_MODULE, Qt::AlignLeft | Qt::AlignVCenter);
-//        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_SOURCE, Qt::AlignLeft | Qt::AlignVCenter);
-//        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_TYPE, Qt::AlignLeft | Qt::AlignVCenter);
+        //        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_SOURCE, Qt::AlignLeft | Qt::AlignVCenter);
+        //        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_TYPE, Qt::AlignLeft | Qt::AlignVCenter);
         XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_SYMBOL, Qt::AlignLeft | Qt::AlignVCenter);
 
         ui->tableViewSymbols->setModel(g_pModel);
