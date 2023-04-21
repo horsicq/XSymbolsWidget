@@ -36,6 +36,12 @@ DialogBookmarks::~DialogBookmarks()
 void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize)
 {
     // TODO
+    QList<XInfoDB::BOOKMARKRECORD> listRecord = pXInfoDB->getBookmarkRecords(nLocation, nSize);
+    int nNumberOfRecords = listRecord.count();
+
+    for (int i = 0; i < nNumberOfRecords; i++) {
+        // TODO
+    }
 }
 
 void DialogBookmarks::on_pushButtonOK_clicked()
