@@ -21,9 +21,7 @@
 #include "dialogbookmarks.h"
 #include "ui_dialogbookmarks.h"
 
-DialogBookmarks::DialogBookmarks(QWidget *parent) :
-      QDialog(parent),
-      ui(new Ui::DialogBookmarks)
+DialogBookmarks::DialogBookmarks(QWidget *parent) : QDialog(parent), ui(new Ui::DialogBookmarks)
 {
     ui->setupUi(this);
 }

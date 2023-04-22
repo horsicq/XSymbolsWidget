@@ -28,8 +28,7 @@ namespace Ui {
 class DialogBookmarks;
 }
 
-class DialogBookmarks : public QDialog
-{
+class DialogBookmarks : public QDialog {
     Q_OBJECT
 
 public:
@@ -45,4 +44,4 @@ private:
     Ui::DialogBookmarks *ui;
 };
 
-#endif // DIALOGBOOKMARKS_H
+#endif  // DIALOGBOOKMARKS_H
