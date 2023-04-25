@@ -39,6 +39,7 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
     listHeaders.append(tr("Size"));
     listHeaders.append(tr("Color"));
     listHeaders.append(tr("Name"));
+    listHeaders.append("");
 
     QList<XInfoDB::BOOKMARKRECORD> listRecord = pXInfoDB->getBookmarkRecords(nLocation, nSize);
     int nNumberOfRecords = listRecord.count();
@@ -71,7 +72,13 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
 
             ui->tableWidgetBookmarks->setItem(i, 3, pItem);
         }
+        {
+           // TODO QButton delete
+        }
     }
+
+    ui->tableWidgetBookmarks->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+    ui->tableWidgetBookmarks->setColumnWidth(4, 30);
 }
 
 void DialogBookmarks::on_pushButtonOK_clicked()
