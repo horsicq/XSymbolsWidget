@@ -33,12 +33,44 @@ DialogBookmarks::~DialogBookmarks()
 
 void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize)
 {
-    // TODO
+    QList<QString> listHeaders;
+
+    listHeaders.append(tr("Location"));
+    listHeaders.append(tr("Size"));
+    listHeaders.append(tr("Color"));
+    listHeaders.append(tr("Name"));
+
     QList<XInfoDB::BOOKMARKRECORD> listRecord = pXInfoDB->getBookmarkRecords(nLocation, nSize);
     int nNumberOfRecords = listRecord.count();
 
+    ui->tableWidgetBookmarks->setRowCount(nNumberOfRecords);
+    ui->tableWidgetBookmarks->setColumnCount(listHeaders.count());
+
+    ui->tableWidgetBookmarks->setHorizontalHeaderLabels(listHeaders);
+
     for (int i = 0; i < nNumberOfRecords; i++) {
-        // TODO
+        {
+            QTableWidgetItem *pItem = new QTableWidgetItem;
+            pItem->setText(XBinary::valueToHexEx(listRecord.at(i).nLocation));
+
+            ui->tableWidgetBookmarks->setItem(i, 0, pItem);
+        }
+        {
+            QTableWidgetItem *pItem = new QTableWidgetItem;
+            pItem->setText(XBinary::valueToHexEx(listRecord.at(i).nSize));
+
+            ui->tableWidgetBookmarks->setItem(i, 1, pItem);
+        }
+        {
+            // TODO QButton
+        }
+        {
+            // TODO QLineEdit
+            QTableWidgetItem *pItem = new QTableWidgetItem;
+            pItem->setText(listRecord.at(i).sName);
+
+            ui->tableWidgetBookmarks->setItem(i, 3, pItem);
+        }
     }
 }
 
