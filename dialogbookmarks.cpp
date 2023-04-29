@@ -64,8 +64,7 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
         }
         {
             // TODO QButton
-        }
-        {
+        } {
             // TODO QLineEdit
             QTableWidgetItem *pItem = new QTableWidgetItem;
             pItem->setText(listRecord.at(i).sName);
@@ -73,7 +72,7 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
             ui->tableWidgetBookmarks->setItem(i, 3, pItem);
         }
         {
-           // TODO QButton delete
+            // TODO QButton delete
         }
     }
 
