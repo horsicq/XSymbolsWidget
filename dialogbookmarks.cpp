@@ -63,8 +63,9 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
             ui->tableWidgetBookmarks->setItem(i, 1, pItem);
         }
         {
-            // TODO QButton
-        } {
+            // TODO QButton color
+        }
+        {
             // TODO QLineEdit
             QTableWidgetItem *pItem = new QTableWidgetItem;
             pItem->setText(listRecord.at(i).sName);
