@@ -64,6 +64,16 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
         }
         {
             // TODO QButton color
+            QPushButton *pPushButtonBackgroundColor = new QPushButton;
+            pPushButtonBackgroundColor->setText("");
+            pPushButtonBackgroundColor->setStyleSheet(QString("background-color: %1").arg(XInfoDB::colorToString(listRecord.at(i).colBackground)));
+//            pPushButtonBackgroundColor->setProperty("ROW", nRow);
+//            pPushButtonBackgroundColor->setProperty("COLUMN", COLUMN_BACKGROUND_COLOR_REMOVE);
+//            pPushButtonBackgroundColor->setProperty("ID", id);
+
+            connect(pPushButtonBackgroundColor, SIGNAL(clicked(bool)), this, SLOT(pushButtonColorSlot()));
+            ui->tableWidgetBookmarks->setCellWidget(i, 2, pPushButtonBackgroundColor);
+
         }
         {
             // TODO QLineEdit
@@ -74,6 +84,14 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
         }
         {
             // TODO QButton delete
+            QPushButton *pPushButtonRemove = new QPushButton;
+            pPushButtonRemove->setText("X");
+            //            pPushButtonBackgroundColor->setProperty("ROW", nRow);
+            //            pPushButtonBackgroundColor->setProperty("COLUMN", COLUMN_BACKGROUND_COLOR_REMOVE);
+            //            pPushButtonBackgroundColor->setProperty("ID", id);
+
+            connect(pPushButtonRemove, SIGNAL(clicked(bool)), this, SLOT(pushButtonRemoveSlot()));
+            ui->tableWidgetBookmarks->setCellWidget(i, 4, pPushButtonRemove);
         }
     }
 
@@ -84,4 +102,14 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
 void DialogBookmarks::on_pushButtonOK_clicked()
 {
     this->close();
+}
+
+void DialogBookmarks::pushButtonColorSlot()
+{
+
+}
+
+void DialogBookmarks::pushButtonRemoveSlot()
+{
+
 }

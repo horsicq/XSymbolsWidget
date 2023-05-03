@@ -39,6 +39,8 @@ public:
 
 private slots:
     void on_pushButtonOK_clicked();
+    void pushButtonColorSlot();
+    void pushButtonRemoveSlot();
 
 private:
     Ui::DialogBookmarks *ui;
