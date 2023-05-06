@@ -21,9 +21,12 @@
 #include "dialogbookmarks.h"
 #include "ui_dialogbookmarks.h"
 
-DialogBookmarks::DialogBookmarks(QWidget *parent) : QDialog(parent), ui(new Ui::DialogBookmarks)
+DialogBookmarks::DialogBookmarks(QWidget *pParent) : QDialog(pParent), ui(new Ui::DialogBookmarks)
 {
     ui->setupUi(this);
+    g_pXInfoDB = nullptr;
+    g_nLocation = 0;
+    g_nSize = 0;
 }
 
 DialogBookmarks::~DialogBookmarks()
@@ -33,6 +36,17 @@ DialogBookmarks::~DialogBookmarks()
 
 void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize)
 {
+    g_pXInfoDB = pXInfoDB;
+    g_nLocation = nLocation;
+    g_nSize = nSize;
+
+    reload();
+}
+
+void DialogBookmarks::reload()
+{
+    const bool bBlock1 = ui->tableWidgetBookmarks->blockSignals(true);
+
     QList<QString> listHeaders;
 
     listHeaders.append(tr("Location"));
@@ -41,7 +55,7 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
     listHeaders.append(tr("Name"));
     listHeaders.append("");
 
-    QList<XInfoDB::BOOKMARKRECORD> listRecord = pXInfoDB->getBookmarkRecords(nLocation, nSize);
+    QList<XInfoDB::BOOKMARKRECORD> listRecord = g_pXInfoDB->getBookmarkRecords(g_nLocation, g_nSize);
     int nNumberOfRecords = listRecord.count();
 
     ui->tableWidgetBookmarks->setRowCount(nNumberOfRecords);
@@ -53,6 +67,8 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
         {
             QTableWidgetItem *pItem = new QTableWidgetItem;
             pItem->setText(XBinary::valueToHexEx(listRecord.at(i).nLocation));
+            pItem->setData(Qt::UserRole + 0, listRecord.at(i).nLocation);
+            pItem->setData(Qt::UserRole + 1, listRecord.at(i).nSize);
 
             ui->tableWidgetBookmarks->setItem(i, 0, pItem);
         }
@@ -63,32 +79,29 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
             ui->tableWidgetBookmarks->setItem(i, 1, pItem);
         }
         {
-            // TODO QButton color
+            QString sColor = XInfoDB::colorToString(listRecord.at(i).colBackground);
             QPushButton *pPushButtonBackgroundColor = new QPushButton;
             pPushButtonBackgroundColor->setText("");
-            pPushButtonBackgroundColor->setStyleSheet(QString("background-color: %1").arg(XInfoDB::colorToString(listRecord.at(i).colBackground)));
-//            pPushButtonBackgroundColor->setProperty("ROW", nRow);
-//            pPushButtonBackgroundColor->setProperty("COLUMN", COLUMN_BACKGROUND_COLOR_REMOVE);
-//            pPushButtonBackgroundColor->setProperty("ID", id);
+            pPushButtonBackgroundColor->setStyleSheet(QString("background-color: %1").arg(sColor));
+            pPushButtonBackgroundColor->setProperty("UUID", listRecord.at(i).sUUID);
+            pPushButtonBackgroundColor->setProperty("COLOR", sColor);
 
             connect(pPushButtonBackgroundColor, SIGNAL(clicked(bool)), this, SLOT(pushButtonColorSlot()));
             ui->tableWidgetBookmarks->setCellWidget(i, 2, pPushButtonBackgroundColor);
 
         }
         {
-            // TODO QLineEdit
-            QTableWidgetItem *pItem = new QTableWidgetItem;
-            pItem->setText(listRecord.at(i).sName);
+            QLineEdit *pLineEdit = new QLineEdit;
+            pLineEdit->setText(listRecord.at(i).sName);
+            pLineEdit->setProperty("UUID", listRecord.at(i).sUUID);
 
-            ui->tableWidgetBookmarks->setItem(i, 3, pItem);
+            connect(pLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(lineEditTextChangedSlot(const QString &)));
+            ui->tableWidgetBookmarks->setCellWidget(i, 3, pLineEdit);
         }
         {
-            // TODO QButton delete
             QPushButton *pPushButtonRemove = new QPushButton;
             pPushButtonRemove->setText("X");
-            //            pPushButtonBackgroundColor->setProperty("ROW", nRow);
-            //            pPushButtonBackgroundColor->setProperty("COLUMN", COLUMN_BACKGROUND_COLOR_REMOVE);
-            //            pPushButtonBackgroundColor->setProperty("ID", id);
+            pPushButtonRemove->setProperty("UUID", listRecord.at(i).sUUID);
 
             connect(pPushButtonRemove, SIGNAL(clicked(bool)), this, SLOT(pushButtonRemoveSlot()));
             ui->tableWidgetBookmarks->setCellWidget(i, 4, pPushButtonRemove);
@@ -97,6 +110,8 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize
 
     ui->tableWidgetBookmarks->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     ui->tableWidgetBookmarks->setColumnWidth(4, 30);
+
+    ui->tableWidgetBookmarks->blockSignals(bBlock1);
 }
 
 void DialogBookmarks::on_pushButtonOK_clicked()
@@ -106,10 +121,65 @@ void DialogBookmarks::on_pushButtonOK_clicked()
 
 void DialogBookmarks::pushButtonColorSlot()
 {
+    QPushButton *pPushButton = qobject_cast<QPushButton *>(sender());
 
+    if (pPushButton) {
+        QString sUUID = pPushButton->property("UUID").toString();
+        QString sColor = pPushButton->property("COLOR").toString();
+
+        QColor color = XInfoDB::stringToColor(sColor);
+
+        color = QColorDialog::getColor(color, this, tr("Background"));
+
+        if (color.isValid()) {
+            sColor = XInfoDB::colorToString(color);
+
+            pPushButton->setStyleSheet(QString("background-color: %1").arg(sColor));
+
+            g_pXInfoDB->updateBookmarkRecordColor(sUUID, color);
+            g_pXInfoDB->reloadView();
+        }
+    }
 }
 
 void DialogBookmarks::pushButtonRemoveSlot()
 {
+    QPushButton *pPushButton = qobject_cast<QPushButton *>(sender());
 
+    if (pPushButton) {
+        QString sUUID = pPushButton->property("UUID").toString();
+
+        g_pXInfoDB->_removeBookmarkRecord(sUUID);
+        g_pXInfoDB->reloadView();
+
+        reload();
+    }
+}
+
+void DialogBookmarks::lineEditTextChangedSlot(const QString &sText)
+{
+    QLineEdit *pLineEdit = qobject_cast<QLineEdit *>(sender());
+
+    if (pLineEdit) {
+        QString sUUID = pLineEdit->property("UUID").toString();
+        g_pXInfoDB->updateBookmarkRecordName(sUUID, sText);
+        g_pXInfoDB->reloadView();
+    }
+}
+
+void DialogBookmarks::on_tableWidgetBookmarks_currentCellChanged(int nCurrentRow, int nCurrentColumn, int nPreviousRow, int nPreviousColumn)
+{
+    Q_UNUSED(nCurrentColumn)
+    Q_UNUSED(nPreviousColumn)
+
+    if (nPreviousRow != -1) {
+        QTableWidgetItem *pItem = ui->tableWidgetBookmarks->item(nCurrentRow, 0);
+
+        if (pItem) {
+            quint64 nLocation = pItem->data(Qt::UserRole + 0).toULongLong();
+            quint64 nSize = pItem->data(Qt::UserRole + 1).toLongLong();
+
+            emit currentBookmarkChanged(nLocation, nSize);
+        }
+    }
 }

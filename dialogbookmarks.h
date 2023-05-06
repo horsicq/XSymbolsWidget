@@ -22,6 +22,9 @@
 #define DIALOGBOOKMARKS_H
 
 #include <QDialog>
+#include <QLineEdit>
+#include <QColorDialog>
+#include <QTableWidgetItem>
 #include "xinfodb.h"
 
 namespace Ui {
@@ -32,18 +35,27 @@ class DialogBookmarks : public QDialog {
     Q_OBJECT
 
 public:
-    explicit DialogBookmarks(QWidget *parent = nullptr);
+    explicit DialogBookmarks(QWidget *pParent = nullptr);
     ~DialogBookmarks();
 
     void setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize);
 
 private slots:
+    void reload();
     void on_pushButtonOK_clicked();
     void pushButtonColorSlot();
     void pushButtonRemoveSlot();
+    void lineEditTextChangedSlot(const QString &sText);
+    void on_tableWidgetBookmarks_currentCellChanged(int nCurrentRow, int nCurrentColumn, int nPreviousRow, int nPreviousColumn);
+
+signals:
+    void currentBookmarkChanged(XADDR nLocation, qint64 nSize);
 
 private:
     Ui::DialogBookmarks *ui;
+    XInfoDB *g_pXInfoDB;
+    quint64 g_nLocation;
+    qint64 g_nSize;
 };
 
 #endif  // DIALOGBOOKMARKS_H
