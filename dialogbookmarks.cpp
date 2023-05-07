@@ -88,7 +88,6 @@ void DialogBookmarks::reload()
 
             connect(pPushButtonBackgroundColor, SIGNAL(clicked(bool)), this, SLOT(pushButtonColorSlot()));
             ui->tableWidgetBookmarks->setCellWidget(i, 2, pPushButtonBackgroundColor);
-
         }
         {
             QLineEdit *pLineEdit = new QLineEdit;
