@@ -47,6 +47,7 @@ private slots:
     void pushButtonRemoveSlot();
     void lineEditTextChangedSlot(const QString &sText);
     void on_tableWidgetBookmarks_currentCellChanged(int nCurrentRow, int nCurrentColumn, int nPreviousRow, int nPreviousColumn);
+    void on_tableWidgetBookmarks_itemClicked(QTableWidgetItem *pItem);
 
 signals:
     void currentBookmarkChanged(XADDR nLocation, qint64 nSize);
