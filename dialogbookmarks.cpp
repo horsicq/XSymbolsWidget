@@ -54,7 +54,7 @@ void DialogBookmarks::reload()
     listHeaders.append(tr("Location"));
     listHeaders.append(tr("Size"));
     listHeaders.append(tr("Color"));
-    listHeaders.append(tr("Name"));
+    listHeaders.append(tr("Comment"));
     listHeaders.append("");
 
     QList<XInfoDB::BOOKMARKRECORD> listRecord = g_pXInfoDB->getBookmarkRecords(g_nLocation, g_nSize);
@@ -93,7 +93,7 @@ void DialogBookmarks::reload()
         }
         {
             QLineEdit *pLineEdit = new QLineEdit;
-            pLineEdit->setText(listRecord.at(i).sName);
+            pLineEdit->setText(listRecord.at(i).sComment);
             pLineEdit->setProperty("UUID", listRecord.at(i).sUUID);
 
             connect(pLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(lineEditTextChangedSlot(const QString &)));
@@ -159,13 +159,23 @@ void DialogBookmarks::pushButtonRemoveSlot()
 
 void DialogBookmarks::lineEditTextChangedSlot(const QString &sText)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
+    const QSignalBlocker block(g_pXInfoDB);
+#else
+    const bool bBlocked1 = g_pXInfoDB->blockSignals(true);
+#endif
+
     QLineEdit *pLineEdit = qobject_cast<QLineEdit *>(sender());
 
     if (pLineEdit) {
         QString sUUID = pLineEdit->property("UUID").toString();
-        g_pXInfoDB->updateBookmarkRecordName(sUUID, sText);
+        g_pXInfoDB->updateBookmarkRecordComment(sUUID, sText);
         g_pXInfoDB->reloadView();
     }
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 3, 0)
+    g_pXInfoDB->blockSignals(bBlocked1);
+#endif
 }
 
 void DialogBookmarks::on_tableWidgetBookmarks_currentCellChanged(int nCurrentRow, int nCurrentColumn, int nPreviousRow, int nPreviousColumn)
