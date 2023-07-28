@@ -38,7 +38,7 @@ public:
     explicit DialogBookmarks(QWidget *pParent = nullptr);
     ~DialogBookmarks();
 
-    void setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize);
+    void setData(XInfoDB *pXInfoDB, qint64 nOffset, XADDR nAddress, qint64 nSize);
 
 private slots:
     void reload();
@@ -55,7 +55,8 @@ signals:
 private:
     Ui::DialogBookmarks *ui;
     XInfoDB *g_pXInfoDB;
-    quint64 g_nLocation;
+    qint64 g_nOffset;
+    XADDR g_nAddress;
     qint64 g_nSize;
 };
 

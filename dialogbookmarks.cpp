@@ -25,7 +25,8 @@ DialogBookmarks::DialogBookmarks(QWidget *pParent) : QDialog(pParent), ui(new Ui
 {
     ui->setupUi(this);
     g_pXInfoDB = nullptr;
-    g_nLocation = 0;
+    g_nOffset = 0;
+    g_nAddress = 0;
     g_nSize = 0;
 }
 
@@ -34,10 +35,11 @@ DialogBookmarks::~DialogBookmarks()
     delete ui;
 }
 
-void DialogBookmarks::setData(XInfoDB *pXInfoDB, quint64 nLocation, qint64 nSize)
+void DialogBookmarks::setData(XInfoDB *pXInfoDB, qint64 nOffset, XADDR nAddress, qint64 nSize)
 {
     g_pXInfoDB = pXInfoDB;
-    g_nLocation = nLocation;
+    g_nOffset = nOffset;
+    g_nAddress = nAddress;
     g_nSize = nSize;
 
     connect(g_pXInfoDB, SIGNAL(reloadViewSignal()), this, SLOT(reload()));
@@ -57,7 +59,16 @@ void DialogBookmarks::reload()
     listHeaders.append(tr("Comment"));
     listHeaders.append("");
 
-    QList<XInfoDB::BOOKMARKRECORD> listRecord = g_pXInfoDB->getBookmarkRecords(g_nLocation, g_nSize);
+    QList<XInfoDB::BOOKMARKRECORD> listRecord;
+
+    if (g_nOffset != -1) {
+        listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nOffset, XInfoDB::LT_OFFSET, g_nSize));
+    }
+
+    if (g_nAddress != -1) {
+        listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nAddress, XInfoDB::LT_ADDRESS, g_nSize));
+    }
+
     int nNumberOfRecords = listRecord.count();
 
     ui->tableWidgetBookmarks->setRowCount(nNumberOfRecords);
@@ -68,7 +79,14 @@ void DialogBookmarks::reload()
     for (int i = 0; i < nNumberOfRecords; i++) {
         {
             QTableWidgetItem *pItem = new QTableWidgetItem;
-            pItem->setText(XBinary::valueToHexEx(listRecord.at(i).nLocation));
+            QString sLocation = XBinary::valueToHexEx(listRecord.at(i).nLocation);
+            if (listRecord.at(i).locationType == XInfoDB::LT_ADDRESS) {
+                sLocation = QString("%1: %2").arg(tr("Address"), sLocation);
+            } else if (listRecord.at(i).locationType == XInfoDB::LT_OFFSET) {
+                sLocation = QString("%1: %2").arg(tr("Offset"), sLocation);
+            }
+
+            pItem->setText(sLocation);
             pItem->setData(Qt::UserRole + 0, listRecord.at(i).nLocation);
             pItem->setData(Qt::UserRole + 1, listRecord.at(i).nSize);
 
@@ -110,6 +128,7 @@ void DialogBookmarks::reload()
     }
 
     ui->tableWidgetBookmarks->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+    ui->tableWidgetBookmarks->setColumnWidth(0, 120);
     ui->tableWidgetBookmarks->setColumnWidth(4, 30);
 
     ui->tableWidgetBookmarks->blockSignals(bBlock1);
