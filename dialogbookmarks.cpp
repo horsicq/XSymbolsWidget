@@ -178,11 +178,7 @@ void DialogBookmarks::pushButtonRemoveSlot()
 
 void DialogBookmarks::lineEditTextChangedSlot(const QString &sText)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
-    const QSignalBlocker block(g_pXInfoDB);
-#else
     const bool bBlocked1 = g_pXInfoDB->blockSignals(true);
-#endif
 
     QLineEdit *pLineEdit = qobject_cast<QLineEdit *>(sender());
 
@@ -192,9 +188,7 @@ void DialogBookmarks::lineEditTextChangedSlot(const QString &sText)
         g_pXInfoDB->reloadView();
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 3, 0)
     g_pXInfoDB->blockSignals(bBlocked1);
-#endif
 }
 
 void DialogBookmarks::on_tableWidgetBookmarks_currentCellChanged(int nCurrentRow, int nCurrentColumn, int nPreviousRow, int nPreviousColumn)
