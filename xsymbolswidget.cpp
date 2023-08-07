@@ -59,8 +59,6 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
 
         if (g_mode == MODE_ALL) {
             listSymbols = g_pXInfoDB->getAllSymbols();
-        } else if (g_mode == MODE_REFERENCES) {
-            //            listSymbols = g_pXInfoDB->getReferencesForAddress(g_varValue.toULongLong());
         }
 
         qint32 nNumberOfRecords = 0;

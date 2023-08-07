@@ -53,8 +53,7 @@ class XSymbolsWidget : public XShortcutsWidget {
 
 public:
     enum MODE {
-        MODE_ALL = 0,
-        MODE_REFERENCES
+        MODE_ALL = 0
     };
 
     explicit XSymbolsWidget(QWidget *pParent = nullptr);
