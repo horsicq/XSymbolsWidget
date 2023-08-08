@@ -71,6 +71,7 @@ protected:
 private slots:
     void on_pushButtonSaveSymbols_clicked();
     void onTableView_currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
+    void on_tableViewSymbols_clicked(const QModelIndex &index);
 
 private:
     Ui::XSymbolsWidget *ui;

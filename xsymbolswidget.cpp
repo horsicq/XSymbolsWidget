@@ -131,3 +131,13 @@ void XSymbolsWidget::onTableView_currentRowChanged(const QModelIndex &current, c
 
     emit currentSymbolChanged(nAddress, nSize);
 }
+
+void XSymbolsWidget::on_tableViewSymbols_clicked(const QModelIndex &index)
+{
+    QModelIndex _index = ui->tableViewSymbols->model()->index(index.row(), 0);
+
+    XADDR nAddress = ui->tableViewSymbols->model()->data(_index, Qt::UserRole + USERROLE_ADDRESS).toULongLong();
+    qint64 nSize = ui->tableViewSymbols->model()->data(index, Qt::UserRole + USERROLE_SIZE).toULongLong();
+
+    emit currentSymbolChanged(nAddress, nSize);
+}
