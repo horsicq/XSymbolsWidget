@@ -50,7 +50,7 @@ private slots:
     void on_tableWidgetBookmarks_itemClicked(QTableWidgetItem *pItem);
 
 signals:
-    void currentBookmarkChanged(XADDR nLocation, qint64 nSize);
+    void currentBookmarkChanged(quint64 nLocation, qint32 nLocationType, qint64 nSize);
 
 private:
     Ui::DialogBookmarks *ui;

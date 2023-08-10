@@ -89,6 +89,7 @@ void DialogBookmarks::reload()
             pItem->setText(sLocation);
             pItem->setData(Qt::UserRole + 0, listRecord.at(i).nLocation);
             pItem->setData(Qt::UserRole + 1, listRecord.at(i).nSize);
+            pItem->setData(Qt::UserRole + 2, listRecord.at(i).locationType);
 
             ui->tableWidgetBookmarks->setItem(i, 0, pItem);
         }
@@ -202,8 +203,9 @@ void DialogBookmarks::on_tableWidgetBookmarks_currentCellChanged(int nCurrentRow
         if (pItem) {
             quint64 nLocation = pItem->data(Qt::UserRole + 0).toULongLong();
             quint64 nSize = pItem->data(Qt::UserRole + 1).toLongLong();
+            quint32 nLocType = pItem->data(Qt::UserRole + 2).toLongLong();
 
-            emit currentBookmarkChanged(nLocation, nSize);
+            emit currentBookmarkChanged(nLocation, nLocType, nSize);
         }
     }
 }
@@ -216,8 +218,9 @@ void DialogBookmarks::on_tableWidgetBookmarks_itemClicked(QTableWidgetItem *pIte
         if (_pItem) {
             quint64 nLocation = _pItem->data(Qt::UserRole + 0).toULongLong();
             quint64 nSize = _pItem->data(Qt::UserRole + 1).toLongLong();
+            quint32 nLocType = pItem->data(Qt::UserRole + 2).toLongLong();
 
-            emit currentBookmarkChanged(nLocation, nSize);
+            emit currentBookmarkChanged(nLocation, nLocType, nSize);
         }
     }
 }
