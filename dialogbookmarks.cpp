@@ -69,14 +69,14 @@ void DialogBookmarks::reload()
         listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nAddress, XInfoDB::LT_ADDRESS, g_nSize));
     }
 
-    int nNumberOfRecords = listRecord.count();
+    qint32 nNumberOfRecords = listRecord.count();
 
     ui->tableWidgetBookmarks->setRowCount(nNumberOfRecords);
     ui->tableWidgetBookmarks->setColumnCount(listHeaders.count());
 
     ui->tableWidgetBookmarks->setHorizontalHeaderLabels(listHeaders);
 
-    for (int i = 0; i < nNumberOfRecords; i++) {
+    for (qint32 i = 0; i < nNumberOfRecords; i++) {
         {
             QTableWidgetItem *pItem = new QTableWidgetItem;
             QString sLocation = XBinary::valueToHexEx(listRecord.at(i).nLocation);
