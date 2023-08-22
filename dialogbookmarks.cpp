@@ -65,7 +65,7 @@ void DialogBookmarks::reload()
         listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nOffset, XInfoDB::LT_OFFSET, g_nSize));
     }
 
-    if (g_nAddress != -1) {
+    if (g_nAddress != (XADDR)-1) {
         listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nAddress, XInfoDB::LT_ADDRESS, g_nSize));
     }
 
