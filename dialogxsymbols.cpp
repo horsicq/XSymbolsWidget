@@ -37,6 +37,18 @@ DialogXSymbols::~DialogXSymbols()
 void DialogXSymbols::setData(XInfoDB *pXInfoDB, XSymbolsWidget::MODE mode, QVariant varValue, bool bReload)
 {
     ui->widgetSymbols->setData(pXInfoDB, mode, varValue, bReload);
+
+    QString sTitle;
+
+    if (mode == XSymbolsWidget::MODE_ALL) {
+        sTitle = tr("Symbols");
+    } else if (mode == XSymbolsWidget::MODE_FUNCTIONS) {
+        sTitle = tr("Functions");
+    } else if (mode == XSymbolsWidget::MODE_REFERENCES) {
+        sTitle = tr("References");
+    }
+
+    setWindowTitle(sTitle);
 }
 
 void DialogXSymbols::on_pushButtonClose_clicked()

@@ -55,50 +55,65 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
 
         // XBinary::MODE modeAddress = XBinary::getModeOS();
 
-        QList<XInfoDB::SYMBOL> listSymbols;
-
         if (g_mode == MODE_ALL) {
-            listSymbols = g_pXInfoDB->getAllSymbols();
+            QList<XInfoDB::SYMBOL> listSymbols = g_pXInfoDB->getAllSymbols();
+
+            qint32 nNumberOfRecords = 0;
+
+            if (bLoadSymbols) {
+                nNumberOfRecords = listSymbols.count();
+            }
+
+            g_pModel = new QStandardItemModel(nNumberOfRecords, 2);
+
+            // TODO Check if address virtual
+            g_pModel->setHeaderData(0, Qt::Horizontal, tr("Address"));
+            g_pModel->setHeaderData(1, Qt::Horizontal, tr("Symbol"));
+
+            for (qint32 i = 0; i < nNumberOfRecords; i++) {
+                QStandardItem *pItemAddress = new QStandardItem;
+                pItemAddress->setText(XBinary::valueToHexEx(listSymbols.at(i).nAddress));
+                pItemAddress->setData(listSymbols.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
+                pItemAddress->setData(0, Qt::UserRole + USERROLE_SIZE);
+                g_pModel->setItem(i, 0, pItemAddress);
+
+
+                QStandardItem *pItemSymbol = new QStandardItem;
+                pItemSymbol->setText(listSymbols.at(i).sSymbol);
+                g_pModel->setItem(i, 1, pItemSymbol);
+            }
+
+            XOptions::setModelTextAlignment(g_pModel, 0, Qt::AlignRight | Qt::AlignVCenter);
+            XOptions::setModelTextAlignment(g_pModel, 1, Qt::AlignLeft | Qt::AlignVCenter);
+        } else if (g_mode == MODE_FUNCTIONS) {
+
+        } else if (g_mode == MODE_REFERENCES) {
+            QList<XInfoDB::REFERENCE> listReferences = g_pXInfoDB->getReferencesForAddress(g_varValue.toULongLong());
+
+            qint32 nNumberOfRecords = listReferences.count();
+
+            g_pModel = new QStandardItemModel(nNumberOfRecords, 2);
+
+            g_pModel->setHeaderData(0, Qt::Horizontal, tr("Address"));
+            g_pModel->setHeaderData(1, Qt::Horizontal, tr("Code"));
+
+            for (qint32 i = 0; i < nNumberOfRecords; i++) {
+                QStandardItem *pItemAddress = new QStandardItem;
+                pItemAddress->setText(XBinary::valueToHexEx(listReferences.at(i).nAddress));
+                pItemAddress->setData(listReferences.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
+                g_pModel->setItem(i, 0, pItemAddress);
+
+                QStandardItem *pItemCode = new QStandardItem;
+                pItemCode->setText(listReferences.at(i).sCode);
+                g_pModel->setItem(i, 1, pItemCode);
+            }
+
+            XOptions::setModelTextAlignment(g_pModel, 0, Qt::AlignRight | Qt::AlignVCenter);
+            XOptions::setModelTextAlignment(g_pModel, 1, Qt::AlignLeft | Qt::AlignVCenter);
+
         }
-
-        qint32 nNumberOfRecords = 0;
-
-        if (bLoadSymbols) {
-            nNumberOfRecords = listSymbols.count();
-        }
-
-        g_pModel = new QStandardItemModel(nNumberOfRecords, __HEADER_COLUMN_size);
-
-        // TODO Check if address virtual
-        g_pModel->setHeaderData(HEADER_COLUMN_ADDRESS, Qt::Horizontal, tr("Address"));
-        g_pModel->setHeaderData(HEADER_COLUMN_MODULE, Qt::Horizontal, tr("Module"));
-        g_pModel->setHeaderData(HEADER_COLUMN_SYMBOL, Qt::Horizontal, tr("Symbol"));
-
-        for (qint32 i = 0; i < nNumberOfRecords; i++) {
-            QStandardItem *pItemAddress = new QStandardItem;
-            pItemAddress->setText(XBinary::valueToHexEx(listSymbols.at(i).nAddress));
-            pItemAddress->setData(listSymbols.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
-            //            pItemAddress->setData(listSymbols.at(i).nSize, Qt::UserRole + USERROLE_SIZE);
-            g_pModel->setItem(i, HEADER_COLUMN_ADDRESS, pItemAddress);
-
-            // TODO
-            //            QStandardItem *pItemModule = new QStandardItem;
-            //            pItemModule->setText(XInfoDB::symbolTypeIdToString(listSymbols.at(i).symbolType));
-            //            g_pModel->setItem(i, HEADER_COLUMN_MODULE, pItemModule);
-
-            QStandardItem *pItemSymbol = new QStandardItem;
-            pItemSymbol->setText(listSymbols.at(i).sSymbol);
-            g_pModel->setItem(i, HEADER_COLUMN_SYMBOL, pItemSymbol);
-        }
-
-        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_ADDRESS, Qt::AlignRight | Qt::AlignVCenter);
-        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_MODULE, Qt::AlignLeft | Qt::AlignVCenter);
-        //        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_SOURCE, Qt::AlignLeft | Qt::AlignVCenter);
-        //        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_TYPE, Qt::AlignLeft | Qt::AlignVCenter);
-        XOptions::setModelTextAlignment(g_pModel, HEADER_COLUMN_SYMBOL, Qt::AlignLeft | Qt::AlignVCenter);
 
         ui->tableViewSymbols->setModel(g_pModel);
-
         ui->tableViewSymbols->setColumnWidth(0, 120);  // TODO
 
         connect(ui->tableViewSymbols->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this,
