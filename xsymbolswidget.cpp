@@ -77,7 +77,6 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
                 pItemAddress->setData(0, Qt::UserRole + USERROLE_SIZE);
                 g_pModel->setItem(i, 0, pItemAddress);
 
-
                 QStandardItem *pItemSymbol = new QStandardItem;
                 pItemSymbol->setText(listSymbols.at(i).sSymbol);
                 g_pModel->setItem(i, 1, pItemSymbol);
@@ -86,7 +85,6 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
             XOptions::setModelTextAlignment(g_pModel, 0, Qt::AlignRight | Qt::AlignVCenter);
             XOptions::setModelTextAlignment(g_pModel, 1, Qt::AlignLeft | Qt::AlignVCenter);
         } else if (g_mode == MODE_FUNCTIONS) {
-
         } else if (g_mode == MODE_REFERENCES) {
             QList<XInfoDB::REFERENCE> listReferences = g_pXInfoDB->getReferencesForAddress(g_varValue.toULongLong());
 
@@ -110,7 +108,6 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
 
             XOptions::setModelTextAlignment(g_pModel, 0, Qt::AlignRight | Qt::AlignVCenter);
             XOptions::setModelTextAlignment(g_pModel, 1, Qt::AlignLeft | Qt::AlignVCenter);
-
         }
 
         ui->tableViewSymbols->setModel(g_pModel);
