@@ -85,6 +85,36 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
             XOptions::setModelTextAlignment(g_pModel, 0, Qt::AlignRight | Qt::AlignVCenter);
             XOptions::setModelTextAlignment(g_pModel, 1, Qt::AlignLeft | Qt::AlignVCenter);
         } else if (g_mode == MODE_FUNCTIONS) {
+            QList<XInfoDB::FUNCTION> listFunctions = g_pXInfoDB->getAllFunctions();
+
+            qint32 nNumberOfFunctions = listFunctions.count();
+
+            g_pModel = new QStandardItemModel(nNumberOfFunctions, 3);
+
+            // TODO Check if address virtual
+            g_pModel->setHeaderData(0, Qt::Horizontal, tr("Address"));
+            g_pModel->setHeaderData(1, Qt::Horizontal, tr("Size"));
+            g_pModel->setHeaderData(2, Qt::Horizontal, tr("Name"));
+
+            for (qint32 i = 0; i < nNumberOfFunctions; i++) {
+                QStandardItem *pItemAddress = new QStandardItem;
+                pItemAddress->setText(XBinary::valueToHexEx(listFunctions.at(i).nAddress));
+                pItemAddress->setData(listFunctions.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
+                pItemAddress->setData(listFunctions.at(i).nSize, Qt::UserRole + USERROLE_SIZE);
+                g_pModel->setItem(i, 0, pItemAddress);
+
+                QStandardItem *pItemSize = new QStandardItem;
+                pItemSize->setText(XBinary::valueToHexEx(listFunctions.at(i).nSize));
+                g_pModel->setItem(i, 1, pItemSize);
+
+                QStandardItem *pItemSymbol = new QStandardItem;
+                pItemSymbol->setText(listFunctions.at(i).sName);
+                g_pModel->setItem(i, 2, pItemSymbol);
+            }
+
+            XOptions::setModelTextAlignment(g_pModel, 0, Qt::AlignRight | Qt::AlignVCenter);
+            XOptions::setModelTextAlignment(g_pModel, 1, Qt::AlignRight | Qt::AlignVCenter);
+            XOptions::setModelTextAlignment(g_pModel, 2, Qt::AlignLeft | Qt::AlignVCenter);
         } else if (g_mode == MODE_REFERENCES) {
             QList<XInfoDB::REFERENCE> listReferences = g_pXInfoDB->getReferencesForAddress(g_varValue.toULongLong());
 
@@ -139,7 +169,7 @@ void XSymbolsWidget::onTableView_currentRowChanged(const QModelIndex &current, c
     QModelIndex index = ui->tableViewSymbols->model()->index(current.row(), 0);
 
     XADDR nAddress = ui->tableViewSymbols->model()->data(index, Qt::UserRole + USERROLE_ADDRESS).toULongLong();
-    qint64 nSize = ui->tableViewSymbols->model()->data(index, Qt::UserRole + USERROLE_SIZE).toULongLong();
+    qint64 nSize = ui->tableViewSymbols->model()->data(index, Qt::UserRole + USERROLE_SIZE).toLongLong();
 
     emit currentSymbolChanged(nAddress, nSize);
 }
@@ -149,7 +179,7 @@ void XSymbolsWidget::on_tableViewSymbols_clicked(const QModelIndex &index)
     QModelIndex _index = ui->tableViewSymbols->model()->index(index.row(), 0);
 
     XADDR nAddress = ui->tableViewSymbols->model()->data(_index, Qt::UserRole + USERROLE_ADDRESS).toULongLong();
-    qint64 nSize = ui->tableViewSymbols->model()->data(index, Qt::UserRole + USERROLE_SIZE).toULongLong();
+    qint64 nSize = ui->tableViewSymbols->model()->data(_index, Qt::UserRole + USERROLE_SIZE).toLongLong();
 
     emit currentSymbolChanged(nAddress, nSize);
 }
