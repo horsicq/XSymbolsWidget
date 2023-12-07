@@ -150,7 +150,7 @@ void DialogBookmarks::pushButtonColorSlot()
 
         QColor color = XInfoDB::stringToColor(sColor);
 
-        color = QColorDialog::getColor(color, this, tr("Background"));
+        color = XOptions::getColorDialog(this, tr("Background"), color);
 
         if (color.isValid()) {
             sColor = XInfoDB::colorToString(color);

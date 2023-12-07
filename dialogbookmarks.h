@@ -26,6 +26,7 @@
 #include <QColorDialog>
 #include <QTableWidgetItem>
 #include "xinfodb.h"
+#include "xoptions.h"
 
 namespace Ui {
 class DialogBookmarks;
