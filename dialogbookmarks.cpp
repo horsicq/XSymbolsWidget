@@ -24,6 +24,9 @@
 DialogBookmarks::DialogBookmarks(QWidget *pParent) : QDialog(pParent), ui(new Ui::DialogBookmarks)
 {
     ui->setupUi(this);
+
+    setWindowFlags(Qt::Window);
+
     g_pXInfoDB = nullptr;
     g_nOffset = 0;
     g_nAddress = 0;
