@@ -65,11 +65,11 @@ void DialogBookmarks::reload()
     QList<XInfoDB::BOOKMARKRECORD> listRecord;
 
     if (g_nOffset != -1) {
-        listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nOffset, XInfoDB::LT_OFFSET, g_nSize));
+        listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nOffset, XBinary::LT_OFFSET, g_nSize));
     }
 
     if (g_nAddress != (XADDR)-1) {
-        listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nAddress, XInfoDB::LT_ADDRESS, g_nSize));
+        listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nAddress, XBinary::LT_ADDRESS, g_nSize));
     }
 
     qint32 nNumberOfRecords = listRecord.count();
@@ -83,9 +83,9 @@ void DialogBookmarks::reload()
         {
             QTableWidgetItem *pItem = new QTableWidgetItem;
             QString sLocation = XBinary::valueToHexEx(listRecord.at(i).nLocation);
-            if (listRecord.at(i).locationType == XInfoDB::LT_ADDRESS) {
+            if (listRecord.at(i).locationType == XBinary::LT_ADDRESS) {
                 sLocation = QString("%1: %2").arg(tr("Address"), sLocation);
-            } else if (listRecord.at(i).locationType == XInfoDB::LT_OFFSET) {
+            } else if (listRecord.at(i).locationType == XBinary::LT_OFFSET) {
                 sLocation = QString("%1: %2").arg(tr("Offset"), sLocation);
             }
 
@@ -208,7 +208,7 @@ void DialogBookmarks::on_tableWidgetBookmarks_currentCellChanged(int nCurrentRow
             quint64 nSize = pItem->data(Qt::UserRole + 1).toLongLong();
             quint32 nLocType = pItem->data(Qt::UserRole + 2).toLongLong();
 
-            emit currentBookmarkChanged(nLocation, nLocType, nSize);
+            emit currentLocationChanged(nLocation, nLocType, nSize);
         }
     }
 }
@@ -223,7 +223,7 @@ void DialogBookmarks::on_tableWidgetBookmarks_itemClicked(QTableWidgetItem *pIte
             quint64 nSize = _pItem->data(Qt::UserRole + 1).toLongLong();
             quint32 nLocType = pItem->data(Qt::UserRole + 2).toLongLong();
 
-            emit currentBookmarkChanged(nLocation, nLocType, nSize);
+            emit currentLocationChanged(nLocation, nLocType, nSize);
         }
     }
 }
