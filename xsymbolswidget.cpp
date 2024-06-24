@@ -150,6 +150,11 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
     }
 }
 
+void XSymbolsWidget::adjustView()
+{
+    // TODO
+}
+
 void XSymbolsWidget::registerShortcuts(bool bState)
 {
     Q_UNUSED(bState)
