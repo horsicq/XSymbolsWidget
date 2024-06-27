@@ -21,11 +21,9 @@
 #include "dialogbookmarks.h"
 #include "ui_dialogbookmarks.h"
 
-DialogBookmarks::DialogBookmarks(QWidget *pParent) : QDialog(pParent), ui(new Ui::DialogBookmarks)
+DialogBookmarks::DialogBookmarks(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogBookmarks)
 {
     ui->setupUi(this);
-
-    setWindowFlags(Qt::Window);
 
     g_pXInfoDB = nullptr;
     g_nOffset = 0;

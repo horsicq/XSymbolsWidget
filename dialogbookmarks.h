@@ -21,7 +21,7 @@
 #ifndef DIALOGBOOKMARKS_H
 #define DIALOGBOOKMARKS_H
 
-#include <QDialog>
+#include "xshortcutsdialog.h"
 #include <QLineEdit>
 #include <QColorDialog>
 #include <QTableWidgetItem>
@@ -32,7 +32,7 @@ namespace Ui {
 class DialogBookmarks;
 }
 
-class DialogBookmarks : public QDialog {
+class DialogBookmarks : public XShortcutsDialog {
     Q_OBJECT
 
 public:
