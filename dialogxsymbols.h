@@ -37,7 +37,9 @@ public:
     explicit DialogXSymbols(QWidget *pParent = nullptr);
     ~DialogXSymbols();
 
-    virtual void adjustView() {}
+    virtual void adjustView()
+    {
+    }
 
     void setData(XInfoDB *pXInfoDB, XSymbolsWidget::MODE mode, QVariant varValue, bool bReload = true);
 
@@ -48,7 +50,10 @@ signals:
     void currentSymbolChanged(XADDR nAddress, qint64 nSize);
 
 protected:
-    virtual void registerShortcuts(bool bState) { Q_UNUSED(bState) }
+    virtual void registerShortcuts(bool bState)
+    {
+        Q_UNUSED(bState)
+    }
 
 private:
     Ui::DialogXSymbols *ui;

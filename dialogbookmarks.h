@@ -40,7 +40,9 @@ public:
     ~DialogBookmarks();
 
     void setData(XInfoDB *pXInfoDB, qint64 nOffset, XADDR nAddress, qint64 nSize);
-    virtual void adjustView() {}
+    virtual void adjustView()
+    {
+    }
 
 private slots:
     void reload();
@@ -55,7 +57,10 @@ signals:
     void currentLocationChanged(quint64 nLocation, qint32 nLocationType, qint64 nSize);
 
 protected:
-    virtual void registerShortcuts(bool bState) { Q_UNUSED(bState) }
+    virtual void registerShortcuts(bool bState)
+    {
+        Q_UNUSED(bState)
+    }
 
 private:
     Ui::DialogBookmarks *ui;
