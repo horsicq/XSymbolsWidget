@@ -48,6 +48,11 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, qint64 nOffset, XADDR nAddress,
     reload();
 }
 
+void DialogBookmarks::adjustView()
+{
+
+}
+
 void DialogBookmarks::reload()
 {
     const bool bBlock1 = ui->tableWidgetBookmarks->blockSignals(true);

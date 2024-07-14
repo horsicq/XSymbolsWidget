@@ -40,9 +40,7 @@ public:
     ~DialogBookmarks();
 
     void setData(XInfoDB *pXInfoDB, qint64 nOffset, XADDR nAddress, qint64 nSize);
-    virtual void adjustView()
-    {
-    }
+    virtual void adjustView();
 
 private slots:
     void reload();
