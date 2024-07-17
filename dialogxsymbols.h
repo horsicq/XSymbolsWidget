@@ -48,10 +48,7 @@ signals:
     void currentSymbolChanged(XADDR nAddress, qint64 nSize);
 
 protected:
-    virtual void registerShortcuts(bool bState)
-    {
-        Q_UNUSED(bState)
-    }
+    virtual void registerShortcuts(bool bState);
 
 private:
     Ui::DialogXSymbols *ui;

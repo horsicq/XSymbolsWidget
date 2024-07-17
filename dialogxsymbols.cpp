@@ -60,3 +60,8 @@ void DialogXSymbols::on_pushButtonClose_clicked()
 {
     this->close();
 }
+
+void DialogXSymbols::registerShortcuts(bool bState)
+{
+    Q_UNUSED(bState)
+}
