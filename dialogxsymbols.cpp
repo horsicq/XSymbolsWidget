@@ -36,7 +36,6 @@ DialogXSymbols::~DialogXSymbols()
 
 void DialogXSymbols::adjustView()
 {
-
 }
 
 void DialogXSymbols::setData(XInfoDB *pXInfoDB, XSymbolsWidget::MODE mode, QVariant varValue, bool bReload)

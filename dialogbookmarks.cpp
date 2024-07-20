@@ -50,7 +50,6 @@ void DialogBookmarks::setData(XInfoDB *pXInfoDB, qint64 nOffset, XADDR nAddress,
 
 void DialogBookmarks::adjustView()
 {
-
 }
 
 void DialogBookmarks::reload()
