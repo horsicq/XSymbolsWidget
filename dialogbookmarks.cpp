@@ -229,3 +229,8 @@ void DialogBookmarks::on_tableWidgetBookmarks_itemClicked(QTableWidgetItem *pIte
         }
     }
 }
+
+void DialogBookmarks::registerShortcuts(bool bState)
+{
+    Q_UNUSED(bState)
+}
