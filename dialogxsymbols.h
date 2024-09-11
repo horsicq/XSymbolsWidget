@@ -33,7 +33,6 @@ class DialogXSymbols : public XShortcutsDialog {
     Q_OBJECT
 
 public:
-    // TODO constructor with params
     explicit DialogXSymbols(QWidget *pParent = nullptr);
     ~DialogXSymbols();
 
