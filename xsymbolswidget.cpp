@@ -28,7 +28,6 @@ XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
 
     g_pXInfoDB = nullptr;
     g_pModel = nullptr;
-    g_pOldModel = nullptr;
     g_mode = MODE_ALL;
 }
 
@@ -51,8 +50,6 @@ void XSymbolsWidget::setData(XInfoDB *pXInfoDB, MODE mode, QVariant varValue, bo
 void XSymbolsWidget::reload(bool bLoadSymbols)
 {
     if (g_pXInfoDB) {
-        g_pOldModel = g_pModel;
-
         // XBinary::MODE modeAddress = XBinary::getModeOS();
 
         if (g_mode == MODE_ALL) {
@@ -140,13 +137,11 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
             XOptions::setModelTextAlignment(g_pModel, 1, Qt::AlignLeft | Qt::AlignVCenter);
         }
 
-        ui->tableViewSymbols->setModel(g_pModel);
+        ui->tableViewSymbols->setCustomModel(g_pModel, true);
         ui->tableViewSymbols->setColumnWidth(0, 120);  // TODO
 
         connect(ui->tableViewSymbols->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), this,
                 SLOT(onTableView_currentRowChanged(QModelIndex, QModelIndex)));
-
-        deleteOldStandardModel(&g_pOldModel);
     }
 }
 
@@ -162,9 +157,7 @@ void XSymbolsWidget::registerShortcuts(bool bState)
 
 void XSymbolsWidget::on_pushButtonSaveSymbols_clicked()
 {
-    if (g_pModel) {
-        XShortcutsWidget::saveTableModel(g_pModel, XBinary::getResultFileName(g_pXInfoDB->getDevice(), QString("%1.txt").arg(tr("Symbols"))));
-    }
+    XShortcutsWidget::saveTableModel(ui->tableViewSymbols->getProxyModel(), XBinary::getResultFileName(g_pXInfoDB->getDevice(), QString("%1.txt").arg(tr("Symbols"))));
 }
 
 void XSymbolsWidget::onTableView_currentRowChanged(const QModelIndex &current, const QModelIndex &previous)

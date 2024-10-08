@@ -72,7 +72,6 @@ private:
     MODE g_mode;
     QVariant g_varValue;
     QStandardItemModel *g_pModel;
-    QStandardItemModel *g_pOldModel;
 };
 
 #endif  // XSYMBOLSWIDGET_H
