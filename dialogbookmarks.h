@@ -51,9 +51,6 @@ private slots:
     void on_tableWidgetBookmarks_currentCellChanged(int nCurrentRow, int nCurrentColumn, int nPreviousRow, int nPreviousColumn);
     void on_tableWidgetBookmarks_itemClicked(QTableWidgetItem *pItem);
 
-signals:
-    void currentLocationChanged(quint64 nLocation, qint32 nLocationType, qint64 nSize);
-
 protected:
     virtual void registerShortcuts(bool bState);
 
