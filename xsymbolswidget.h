@@ -54,6 +54,7 @@ public:
     void setData(XInfoDB *pXInfoDB, MODE mode = MODE_ALL, QVariant varValue = QVariant(), bool bReload = true);
     void reload(bool bLoadSymbols);
     virtual void adjustView();
+    virtual void reloadData(bool bSaveSelection);
 
 signals:
     void currentSymbolChanged(XADDR nAddress, qint64 nSize);

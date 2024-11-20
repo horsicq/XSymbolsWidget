@@ -150,6 +150,13 @@ void XSymbolsWidget::adjustView()
     // TODO
 }
 
+void XSymbolsWidget::reloadData(bool bSaveSelection)
+{
+    if (!bSaveSelection) {
+        reload(true);
+    }
+}
+
 void XSymbolsWidget::registerShortcuts(bool bState)
 {
     Q_UNUSED(bState)
