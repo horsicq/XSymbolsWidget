@@ -70,8 +70,8 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
             for (qint32 i = 0; i < nNumberOfRecords; i++) {
                 QStandardItem *pItemAddress = new QStandardItem;
                 pItemAddress->setText(XBinary::valueToHexEx(listSymbols.at(i).nAddress));
-                pItemAddress->setData(listSymbols.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
-                pItemAddress->setData(0, Qt::UserRole + USERROLE_SIZE);
+                pItemAddress->setData(listSymbols.at(i).nAddress, Qt::UserRole + (qint32)(USERROLE_ADDRESS));
+                pItemAddress->setData(0, Qt::UserRole + (qint32)(USERROLE_SIZE));
                 g_pModel->setItem(i, 0, pItemAddress);
 
                 QStandardItem *pItemSymbol = new QStandardItem;
@@ -96,8 +96,8 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
             for (qint32 i = 0; i < nNumberOfFunctions; i++) {
                 QStandardItem *pItemAddress = new QStandardItem;
                 pItemAddress->setText(XBinary::valueToHexEx(listFunctions.at(i).nAddress));
-                pItemAddress->setData(listFunctions.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
-                pItemAddress->setData(listFunctions.at(i).nSize, Qt::UserRole + USERROLE_SIZE);
+                pItemAddress->setData(listFunctions.at(i).nAddress, Qt::UserRole + (qint32)(USERROLE_ADDRESS));
+                pItemAddress->setData(listFunctions.at(i).nSize, Qt::UserRole + (qint32)(USERROLE_SIZE));
                 g_pModel->setItem(i, 0, pItemAddress);
 
                 QStandardItem *pItemSize = new QStandardItem;
@@ -125,7 +125,7 @@ void XSymbolsWidget::reload(bool bLoadSymbols)
             for (qint32 i = 0; i < nNumberOfRecords; i++) {
                 QStandardItem *pItemAddress = new QStandardItem;
                 pItemAddress->setText(XBinary::valueToHexEx(listReferences.at(i).nAddress));
-                pItemAddress->setData(listReferences.at(i).nAddress, Qt::UserRole + USERROLE_ADDRESS);
+                pItemAddress->setData(listReferences.at(i).nAddress, Qt::UserRole + (qint32)(USERROLE_ADDRESS));
                 g_pModel->setItem(i, 0, pItemAddress);
 
                 QStandardItem *pItemCode = new QStandardItem;
@@ -172,8 +172,8 @@ void XSymbolsWidget::onTableView_currentRowChanged(const QModelIndex &current, c
 
     QModelIndex index = ui->tableViewSymbols->model()->index(current.row(), 0);
 
-    XADDR nAddress = ui->tableViewSymbols->model()->data(index, Qt::UserRole + USERROLE_ADDRESS).toULongLong();
-    qint64 nSize = ui->tableViewSymbols->model()->data(index, Qt::UserRole + USERROLE_SIZE).toLongLong();
+    XADDR nAddress = ui->tableViewSymbols->model()->data(index, Qt::UserRole + (qint32)(USERROLE_ADDRESS)).toULongLong();
+    qint64 nSize = ui->tableViewSymbols->model()->data(index, Qt::UserRole + (qint32)(USERROLE_SIZE)).toLongLong();
 
     emit currentSymbolChanged(nAddress, nSize);
 }
@@ -182,8 +182,8 @@ void XSymbolsWidget::on_tableViewSymbols_clicked(const QModelIndex &index)
 {
     QModelIndex _index = ui->tableViewSymbols->model()->index(index.row(), 0);
 
-    XADDR nAddress = ui->tableViewSymbols->model()->data(_index, Qt::UserRole + USERROLE_ADDRESS).toULongLong();
-    qint64 nSize = ui->tableViewSymbols->model()->data(_index, Qt::UserRole + USERROLE_SIZE).toLongLong();
+    XADDR nAddress = ui->tableViewSymbols->model()->data(_index, Qt::UserRole + (qint32)(USERROLE_ADDRESS)).toULongLong();
+    qint64 nSize = ui->tableViewSymbols->model()->data(_index, Qt::UserRole + (qint32)(USERROLE_SIZE)).toLongLong();
 
     emit currentSymbolChanged(nAddress, nSize);
 }
