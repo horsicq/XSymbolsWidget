@@ -24,7 +24,6 @@
 #include <QFuture>
 #include <QStandardItemModel>
 #include <QWidget>
-#include <QtConcurrent>
 
 #include "xinfodb.h"
 #include "xshortcutswidget.h"
