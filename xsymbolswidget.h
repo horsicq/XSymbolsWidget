@@ -37,6 +37,7 @@ class XSymbolsWidget : public XShortcutsWidget {
 
     enum USERROLE {
         USERROLE_ADDRESS = 0,
+        USERROLE_OFFSET,
         USERROLE_SIZE
     };
 
