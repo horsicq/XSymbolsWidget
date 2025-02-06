@@ -163,7 +163,7 @@ void XSymbolsWidget::registerShortcuts(bool bState)
 
 void XSymbolsWidget::on_pushButtonSaveSymbols_clicked()
 {
-    XShortcutsWidget::saveTableModel(ui->tableViewSymbols->getProxyModel(), XBinary::getResultFileName(g_pXInfoDB->getDevice(), QString("%1.txt").arg(tr("Symbols"))));
+    // XShortcutsWidget::saveTableModel(ui->tableViewSymbols->getProxyModel(), XBinary::getResultFileName(g_pXInfoDB->getDevice(), QString("%1.txt").arg(tr("Symbols"))));
 }
 
 void XSymbolsWidget::onTableView_currentRowChanged(const QModelIndex &current, const QModelIndex &previous)
