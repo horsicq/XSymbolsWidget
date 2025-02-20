@@ -36,6 +36,21 @@ XSymbolsWidget::~XSymbolsWidget()
     delete ui;
 }
 
+void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB, QString sXInfoProfile)
+{
+    g_pXInfoDB = pXInfoDB;
+    g_sXInfoProfile = sXInfoProfile;
+}
+
+void XSymbolsWidget::setData(MODE mode, bool bReload)
+{
+    g_mode = mode;
+
+    if (bReload) {
+        reload(true);
+    }
+}
+
 void XSymbolsWidget::setData(XInfoDB *pXInfoDB, MODE mode, QVariant varValue, bool bReload)
 {
     g_pXInfoDB = pXInfoDB;
@@ -186,4 +201,9 @@ void XSymbolsWidget::on_tableViewSymbols_clicked(const QModelIndex &index)
     qint64 nSize = ui->tableViewSymbols->model()->data(_index, Qt::UserRole + (qint32)(USERROLE_SIZE)).toLongLong();
 
     emit currentSymbolChanged(nAddress, nSize);
+}
+
+void XSymbolsWidget::on_pushButtonSymbolsAnalyze_clicked()
+{
+    // TODO
 }

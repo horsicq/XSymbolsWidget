@@ -51,6 +51,9 @@ public:
     explicit XSymbolsWidget(QWidget *pParent = nullptr);
     ~XSymbolsWidget();
 
+    void setXInfoDB(XInfoDB *pXInfoDB, QString sXInfoProfile = "");
+    void setData(MODE mode, bool bReload);
+
     void setData(XInfoDB *pXInfoDB, MODE mode = MODE_ALL, QVariant varValue = QVariant(), bool bReload = true);
     void reload(bool bLoadSymbols);
     virtual void adjustView();
@@ -66,10 +69,12 @@ private slots:
     void on_pushButtonSaveSymbols_clicked();
     void onTableView_currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
     void on_tableViewSymbols_clicked(const QModelIndex &index);
+    void on_pushButtonSymbolsAnalyze_clicked();
 
 private:
     Ui::XSymbolsWidget *ui;
     XInfoDB *g_pXInfoDB;
+    QString g_sXInfoProfile;
     MODE g_mode;
     QVariant g_varValue;
     QStandardItemModel *g_pModel;
