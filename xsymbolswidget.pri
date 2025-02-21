@@ -4,12 +4,14 @@ DEPENDPATH += $$PWD
 HEADERS += \
     $$PWD/dialogbookmarks.h \
     $$PWD/dialogxsymbols.h \
-    $$PWD/xsymbolswidget.h
+    $$PWD/xsymbolswidget.h \
+    $$PWD/xmodel_xsymbol.h
 
 SOURCES += \
     $$PWD/dialogbookmarks.cpp \
     $$PWD/dialogxsymbols.cpp \
-    $$PWD/xsymbolswidget.cpp
+    $$PWD/xsymbolswidget.cpp \
+    $$PWD/xmodel_xsymbol.cpp
 
 FORMS += \
     $$PWD/dialogbookmarks.ui \

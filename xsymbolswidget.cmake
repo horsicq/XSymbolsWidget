@@ -16,4 +16,6 @@ set(XSYMBOLSWIDGET_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/dialogxsymbols.cpp
     ${CMAKE_CURRENT_LIST_DIR}/dialogxsymbols.h
     ${CMAKE_CURRENT_LIST_DIR}/dialogxsymbols.ui
+    ${CMAKE_CURRENT_LIST_DIR}/xmodel_xsymbol.h
+    ${CMAKE_CURRENT_LIST_DIR}/xmodel_xsymbol.cpp
 )
