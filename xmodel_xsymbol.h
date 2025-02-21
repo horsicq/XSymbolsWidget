@@ -22,9 +22,9 @@
 #ifndef XMODEL_XSYMBOL_H
 #define XMODEL_XSYMBOL_H
 
-#include <QObject>
+#include "xmodel.h"
 
-class XModel_XSymbol : public QObject
+class XModel_XSymbol : public XModel
 {
     Q_OBJECT
 public:
