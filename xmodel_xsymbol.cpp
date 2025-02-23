@@ -21,8 +21,6 @@
 
 #include "xmodel_xsymbol.h"
 
-XModel_XSymbol::XModel_XSymbol(QObject *parent)
-    : XModel(parent)
+XModel_XSymbol::XModel_XSymbol(QObject *parent) : XModel(parent)
 {
-
 }

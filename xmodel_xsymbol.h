@@ -24,14 +24,12 @@
 
 #include "xmodel.h"
 
-class XModel_XSymbol : public XModel
-{
+class XModel_XSymbol : public XModel {
     Q_OBJECT
 public:
     explicit XModel_XSymbol(QObject *parent = nullptr);
 
 signals:
-
 };
 
-#endif // XMODEL_XSYMBOL_H
+#endif  // XMODEL_XSYMBOL_H
