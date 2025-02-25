@@ -38,21 +38,23 @@ void DialogXSymbols::adjustView()
 {
 }
 
-void DialogXSymbols::setData(XInfoDB *pXInfoDB, XSymbolsWidget::MODE mode, QVariant varValue, bool bReload)
+void DialogXSymbols::setData(XInfoDB *pXInfoDB, QString sXInfoProfile,  XInfoDB::SYMBOL_MODE mode, bool bReload)
 {
-    ui->widgetSymbols->setData(pXInfoDB, mode, varValue, bReload);
+    ui->widgetSymbols->setXInfoDB(pXInfoDB, sXInfoProfile);
+    ui->widgetSymbols->setData(mode, bReload);
 
-    QString sTitle;
+    // TODO function
+    // QString sTitle;
 
-    if (mode == XSymbolsWidget::MODE_ALL) {
-        sTitle = tr("Symbols");
-    } else if (mode == XSymbolsWidget::MODE_FUNCTIONS) {
-        sTitle = tr("Functions");
-    } else if (mode == XSymbolsWidget::MODE_REFERENCES) {
-        sTitle = tr("References");
-    }
+    // if (mode == XInfoDB::SYMBOL_MODE_ALL) {
+    //     sTitle = tr("Symbols");
+    // } else if (mode == XSymbolsWidget::MODE_FUNCTIONS) {
+    //     sTitle = tr("Functions");
+    // } else if (mode == XSymbolsWidget::MODE_REFERENCES) {
+    //     sTitle = tr("References");
+    // }
 
-    setWindowTitle(sTitle);
+    // setWindowTitle(sTitle);
 }
 
 void DialogXSymbols::on_pushButtonClose_clicked()

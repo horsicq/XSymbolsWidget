@@ -24,3 +24,8 @@
 XModel_XSymbol::XModel_XSymbol(QObject *parent) : XModel(parent)
 {
 }
+
+void XModel_XSymbol::setData(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::SYMBOL_MODE mode)
+{
+
+}

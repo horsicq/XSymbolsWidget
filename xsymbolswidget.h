@@ -35,26 +35,13 @@ class XSymbolsWidget;
 class XSymbolsWidget : public XShortcutsWidget {
     Q_OBJECT
 
-    enum USERROLE {
-        USERROLE_ADDRESS = 0,
-        USERROLE_OFFSET,
-        USERROLE_SIZE
-    };
-
 public:
-    enum MODE {
-        MODE_ALL = 0,
-        MODE_FUNCTIONS,
-        MODE_REFERENCES
-    };
-
     explicit XSymbolsWidget(QWidget *pParent = nullptr);
     ~XSymbolsWidget();
 
     void setXInfoDB(XInfoDB *pXInfoDB, QString sXInfoProfile = "");
-    void setData(MODE mode, bool bReload);
+    void setData(XInfoDB::SYMBOL_MODE mode, bool bReload);
 
-    void setData(XInfoDB *pXInfoDB, MODE mode = MODE_ALL, QVariant varValue = QVariant(), bool bReload = true);
     void reload(bool bLoadSymbols);
     virtual void adjustView();
     virtual void reloadData(bool bSaveSelection);
@@ -67,15 +54,13 @@ protected:
 
 private slots:
     void on_pushButtonSaveSymbols_clicked();
-    void onTableView_currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
-    void on_tableViewSymbols_clicked(const QModelIndex &index);
     void on_pushButtonSymbolsAnalyze_clicked();
 
 private:
     Ui::XSymbolsWidget *ui;
     XInfoDB *g_pXInfoDB;
     QString g_sXInfoProfile;
-    MODE g_mode;
+    XInfoDB::SYMBOL_MODE g_mode;
     QVariant g_varValue;
     QStandardItemModel *g_pModel;
 };

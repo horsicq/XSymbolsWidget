@@ -23,11 +23,14 @@
 #define XMODEL_XSYMBOL_H
 
 #include "xmodel.h"
+#include "xinfodb.h"
 
 class XModel_XSymbol : public XModel {
     Q_OBJECT
 public:
     explicit XModel_XSymbol(QObject *parent = nullptr);
+
+    void setData(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::SYMBOL_MODE mode);
 
 signals:
 };
