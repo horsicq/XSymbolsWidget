@@ -27,7 +27,6 @@ XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
     ui->setupUi(this);
 
     g_pXInfoDB = nullptr;
-    g_pModel = nullptr;
     g_mode = XInfoDB::SYMBOL_MODE_ALL;
 }
 
@@ -36,37 +35,41 @@ XSymbolsWidget::~XSymbolsWidget()
     delete ui;
 }
 
-void XSymbolsWidget::setXInfoDB(XInfoDB *pXInfoDB, QString sXInfoProfile)
+void XSymbolsWidget::setData(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::SYMBOL_MODE mode, bool bReload)
 {
     g_pXInfoDB = pXInfoDB;
     g_sXInfoProfile = sXInfoProfile;
-}
-
-void XSymbolsWidget::setData(XInfoDB::SYMBOL_MODE mode, bool bReload)
-{
     g_mode = mode;
 
     if (bReload) {
-        reload(true);
+        reload();
     }
 }
 
-void XSymbolsWidget::reload(bool bLoadSymbols)
+
+void XSymbolsWidget::reload()
 {
     if (g_pXInfoDB) {
+        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_sXInfoProfile, g_mode,  this);
+
+        ui->tableViewSymbols->setCustomModel(pModel, true);
         // XBinary::MODE modeAddress = XBinary::getModeOS();
+        connect(ui->tableViewSymbols->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
+                SLOT(on_tableViewSelection(QItemSelection, QItemSelection)));
     }
 }
 
 void XSymbolsWidget::adjustView()
 {
-    // TODO
+    getGlobalOptions()->adjustWidget(this, XOptions::ID_VIEW_FONT_CONTROLS);
+    getGlobalOptions()->adjustTableView(ui->tableViewSymbols, XOptions::ID_VIEW_FONT_TABLEVIEWS);
+    ui->tableViewSymbols->adjust();
 }
 
 void XSymbolsWidget::reloadData(bool bSaveSelection)
 {
     Q_UNUSED(bSaveSelection)
-    reload(true);
+    reload();
 }
 
 void XSymbolsWidget::registerShortcuts(bool bState)
@@ -82,4 +85,41 @@ void XSymbolsWidget::on_pushButtonSaveSymbols_clicked()
 void XSymbolsWidget::on_pushButtonSymbolsAnalyze_clicked()
 {
     // TODO
+}
+
+void XSymbolsWidget::on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected)
+{
+    Q_UNUSED(itemSelected)
+    Q_UNUSED(itemDeselected)
+
+    viewSelection();
+}
+
+void XSymbolsWidget::on_tableViewSymbols_clicked(const QModelIndex &index)
+{
+    Q_UNUSED(index)
+
+    viewSelection();
+}
+
+void XSymbolsWidget::viewSelection()
+{
+    QItemSelectionModel *pSelectionModel = ui->tableViewSymbols->selectionModel();
+
+    if (pSelectionModel) {
+        QModelIndexList listIndexes = pSelectionModel->selectedIndexes();
+
+        if (listIndexes.count()) {
+            QModelIndex indexNumber = listIndexes.at(XModel_XSymbol::COLUMN_NUMBER);
+            XADDR nVirtualAddress = ui->tableViewSymbols->model()->data(indexNumber, Qt::UserRole + XModel_XSymbol::USERROLE_ADDRESS).toULongLong();
+            qint64 nOffset = ui->tableViewSymbols->model()->data(indexNumber, Qt::UserRole + XModel_XSymbol::USERROLE_OFFSET).toULongLong();
+            qint64 nSize = ui->tableViewSymbols->model()->data(indexNumber, Qt::UserRole + XModel_XSymbol::USERROLE_SIZE).toLongLong();
+
+            if (nOffset != -1) {
+                emit currentLocationChanged(nOffset, XBinary::LT_OFFSET, nSize);
+            } else if (nVirtualAddress != (XADDR)-1) {
+                emit currentLocationChanged(nVirtualAddress, XBinary::LT_ADDRESS, nSize);
+            }
+        }
+    }
 }

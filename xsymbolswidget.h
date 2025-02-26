@@ -27,6 +27,7 @@
 
 #include "xinfodb.h"
 #include "xshortcutswidget.h"
+#include "xmodel_xsymbol.h"
 
 namespace Ui {
 class XSymbolsWidget;
@@ -39,10 +40,9 @@ public:
     explicit XSymbolsWidget(QWidget *pParent = nullptr);
     ~XSymbolsWidget();
 
-    void setXInfoDB(XInfoDB *pXInfoDB, QString sXInfoProfile = "");
-    void setData(XInfoDB::SYMBOL_MODE mode, bool bReload);
+    void setData(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::SYMBOL_MODE mode, bool bReload);
 
-    void reload(bool bLoadSymbols);
+    void reload();
     virtual void adjustView();
     virtual void reloadData(bool bSaveSelection);
 
@@ -55,6 +55,9 @@ protected:
 private slots:
     void on_pushButtonSaveSymbols_clicked();
     void on_pushButtonSymbolsAnalyze_clicked();
+    void on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected);
+    void on_tableViewSymbols_clicked(const QModelIndex &index);
+    void viewSelection();
 
 private:
     Ui::XSymbolsWidget *ui;
@@ -62,7 +65,6 @@ private:
     QString g_sXInfoProfile;
     XInfoDB::SYMBOL_MODE g_mode;
     QVariant g_varValue;
-    QStandardItemModel *g_pModel;
 };
 
 #endif  // XSYMBOLSWIDGET_H

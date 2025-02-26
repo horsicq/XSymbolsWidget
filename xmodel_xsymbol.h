@@ -27,12 +27,45 @@
 
 class XModel_XSymbol : public XModel {
     Q_OBJECT
+
 public:
-    explicit XModel_XSymbol(QObject *parent = nullptr);
+    enum COLUMN {
+        COLUMN_NUMBER,
+        COLUMN_OFFSET,
+        COLUMN_ADDRESS,
+        COLUMN_REGION,
+        COLUMN_SIZE,
+        COLUMN_SYMBOL,
+        __COLUMN_SIZE
+    };
 
-    void setData(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::SYMBOL_MODE mode);
+    enum USERROLE {
+        USERROLE_SIZE = 0,
+        USERROLE_OFFSET,
+        USERROLE_ADDRESS,
+        USERROLE_TYPE
+    };
 
-signals:
+    explicit XModel_XSymbol(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::SYMBOL_MODE mode, QObject *parent = nullptr);
+
+    virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+    virtual QModelIndex parent(const QModelIndex &child) const;
+    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual QVariant data(const QModelIndex &index, int nRole = Qt::DisplayRole) const;
+    virtual QVariant headerData(int nSection, Qt::Orientation orientation, int nRole = Qt::DisplayRole) const;
+    virtual qint32 getColumnSymbolSize(qint32 nColumn);
+
+private:
+    XInfoDB *g_pXInfoDB;
+    QString g_sXInfoProfile;
+    XInfoDB::SYMBOL_MODE g_mode;
+    XInfoDB::STATE *g_pState;
+    qint32 g_nRowCount;
+    qint32 g_nColumnCount;
+    qint32 g_nColumnWidths[__COLUMN_SIZE];
+    XBinary::MODE g_modeAddress;
+    XBinary::MODE g_modeOffset;
 };
 
 #endif  // XMODEL_XSYMBOL_H
