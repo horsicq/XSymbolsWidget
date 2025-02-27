@@ -40,7 +40,7 @@ public:
     explicit XSymbolsWidget(QWidget *pParent = nullptr);
     ~XSymbolsWidget();
 
-    void setData(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::SYMBOL_MODE mode, bool bReload);
+    void setData(XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, XInfoDB::SYMBOL_MODE mode, bool bReload);
 
     void reload();
     virtual void adjustView();
@@ -62,7 +62,7 @@ private slots:
 private:
     Ui::XSymbolsWidget *ui;
     XInfoDB *g_pXInfoDB;
-    QString g_sXInfoProfile;
+    XInfoDB::PROFILE g_profile;
     XInfoDB::SYMBOL_MODE g_mode;
     QVariant g_varValue;
 };

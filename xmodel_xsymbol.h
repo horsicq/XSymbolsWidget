@@ -46,7 +46,7 @@ public:
         USERROLE_TYPE
     };
 
-    explicit XModel_XSymbol(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::SYMBOL_MODE mode, QObject *parent = nullptr);
+    explicit XModel_XSymbol(XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, XInfoDB::SYMBOL_MODE mode, QObject *parent = nullptr);
 
     virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     virtual QModelIndex parent(const QModelIndex &child) const;
@@ -58,7 +58,7 @@ public:
 
 private:
     XInfoDB *g_pXInfoDB;
-    QString g_sXInfoProfile;
+    XInfoDB::PROFILE g_profile;
     XInfoDB::SYMBOL_MODE g_mode;
     XInfoDB::STATE *g_pState;
     qint32 g_nRowCount;

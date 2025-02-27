@@ -38,7 +38,7 @@ public:
 
     virtual void adjustView();
 
-    void setData(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::SYMBOL_MODE mode, bool bReload = true);
+    void setData(XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, XInfoDB::SYMBOL_MODE mode, bool bReload = true);
 
 private slots:
     void on_pushButtonClose_clicked();

@@ -35,10 +35,10 @@ XSymbolsWidget::~XSymbolsWidget()
     delete ui;
 }
 
-void XSymbolsWidget::setData(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::SYMBOL_MODE mode, bool bReload)
+void XSymbolsWidget::setData(XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, XInfoDB::SYMBOL_MODE mode, bool bReload)
 {
     g_pXInfoDB = pXInfoDB;
-    g_sXInfoProfile = sXInfoProfile;
+    g_profile = profile;
     g_mode = mode;
 
     if (bReload) {
@@ -50,7 +50,7 @@ void XSymbolsWidget::setData(XInfoDB *pXInfoDB, QString sXInfoProfile, XInfoDB::
 void XSymbolsWidget::reload()
 {
     if (g_pXInfoDB) {
-        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_sXInfoProfile, g_mode,  this);
+        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_profile, g_mode,  this);
 
         ui->tableViewSymbols->setCustomModel(pModel, true);
         // XBinary::MODE modeAddress = XBinary::getModeOS();
