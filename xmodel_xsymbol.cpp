@@ -23,9 +23,9 @@
 
 XModel_XSymbol::XModel_XSymbol(XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, XInfoDB::SYMBOL_MODE mode, QObject *parent) : XModel(parent)
 {
-    g_pXInfoDB=pXInfoDB;
-    g_profile=profile;
-    g_mode=mode;
+    g_pXInfoDB = pXInfoDB;
+    g_profile = profile;
+    g_mode = mode;
 
     g_pState = g_pXInfoDB->getState(profile);
 
@@ -95,7 +95,8 @@ QVariant XModel_XSymbol::data(const QModelIndex &index, int nRole) const
                     qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
                     if (nRegionIndex != -1) {
                         if (g_pState->memoryMap.listRecords.at(nRegionIndex).nOffset != -1) {
-                            result = XBinary::valueToHex(g_modeOffset, g_pState->memoryMap.listRecords.at(nRegionIndex).nOffset + g_pState->listSymbols.at(nRow).nRelOffset);
+                            result =
+                                XBinary::valueToHex(g_modeOffset, g_pState->memoryMap.listRecords.at(nRegionIndex).nOffset + g_pState->listSymbols.at(nRow).nRelOffset);
                         }
                     } else {
                         result = XBinary::valueToHex(g_modeOffset, g_pState->listSymbols.at(nRow).nRelOffset);
@@ -104,7 +105,8 @@ QVariant XModel_XSymbol::data(const QModelIndex &index, int nRole) const
                     qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
                     if (nRegionIndex != -1) {
                         if (g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress != -1) {
-                            result = XBinary::valueToHex(g_modeAddress, g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress + g_pState->listSymbols.at(nRow).nRelOffset);
+                            result =
+                                XBinary::valueToHex(g_modeAddress, g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress + g_pState->listSymbols.at(nRow).nRelOffset);
                         }
                     }
                 } else if (nColumn == COLUMN_REGION) {
@@ -114,7 +116,6 @@ QVariant XModel_XSymbol::data(const QModelIndex &index, int nRole) const
                 } else if (nColumn == COLUMN_SIZE) {
                     result = QString::number(g_pState->listSymbols.at(nRow).nSize, 16);
                 } else if (nColumn == COLUMN_SYMBOL) {
-
                 }
             } else if (nRole == Qt::UserRole + USERROLE_ADDRESS) {
                 qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;

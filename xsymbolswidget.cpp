@@ -46,11 +46,10 @@ void XSymbolsWidget::setData(XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, XInfoD
     }
 }
 
-
 void XSymbolsWidget::reload()
 {
     if (g_pXInfoDB) {
-        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_profile, g_mode,  this);
+        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_profile, g_mode, this);
 
         ui->tableViewSymbols->setCustomModel(pModel, true);
         // XBinary::MODE modeAddress = XBinary::getModeOS();
@@ -80,11 +79,6 @@ void XSymbolsWidget::registerShortcuts(bool bState)
 void XSymbolsWidget::on_pushButtonSaveSymbols_clicked()
 {
     // XShortcutsWidget::saveTableModel(ui->tableViewSymbols->getProxyModel(), XBinary::getResultFileName(g_pXInfoDB->getDevice(), QString("%1.txt").arg(tr("Symbols"))));
-}
-
-void XSymbolsWidget::on_pushButtonSymbolsAnalyze_clicked()
-{
-    // TODO
 }
 
 void XSymbolsWidget::on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected)
