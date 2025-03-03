@@ -29,9 +29,12 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="pushButtonSymbolsAnalyze">
-       <property name="text">
-        <string>Analyze</string>
+      <widget class="QComboBox" name="comboBoxType">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
        </property>
       </widget>
      </item>

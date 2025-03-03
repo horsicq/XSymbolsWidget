@@ -54,7 +54,6 @@ protected:
 
 private slots:
     void on_pushButtonSaveSymbols_clicked();
-    void on_pushButtonSymbolsAnalyze_clicked();
     void on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected);
     void on_tableViewSymbols_clicked(const QModelIndex &index);
     void viewSelection();
