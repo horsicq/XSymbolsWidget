@@ -38,9 +38,9 @@ void DialogXSymbols::adjustView()
 {
 }
 
-void DialogXSymbols::setData(XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, XInfoDB::SYMBOL_MODE mode, bool bReload)
+void DialogXSymbols::setData(QIODevice *pDevice, const XSymbolsWidget::OPTIONS &options, XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, bool bReload)
 {
-    ui->widgetSymbols->setData(pXInfoDB, profile, mode, bReload);
+    ui->widgetSymbols->setData(pDevice, options, pXInfoDB, profile, bReload);
 
     // TODO function
     // QString sTitle;

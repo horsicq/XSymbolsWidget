@@ -37,10 +37,15 @@ class XSymbolsWidget : public XShortcutsWidget {
     Q_OBJECT
 
 public:
+    struct OPTIONS {
+        XBinary::FT fileType;
+        XInfoDB::SYMBOL_MODE symbolMode;
+    };
+
     explicit XSymbolsWidget(QWidget *pParent = nullptr);
     ~XSymbolsWidget();
 
-    void setData(XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, XInfoDB::SYMBOL_MODE mode, bool bReload);
+    void setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, bool bReload);
 
     void reload();
     virtual void adjustView();
@@ -60,10 +65,10 @@ private slots:
 
 private:
     Ui::XSymbolsWidget *ui;
+    QIODevice *g_pDevice;
     XInfoDB *g_pXInfoDB;
     XInfoDB::PROFILE g_profile;
-    XInfoDB::SYMBOL_MODE g_mode;
-    QVariant g_varValue;
+    OPTIONS g_options;
 };
 
 #endif  // XSYMBOLSWIDGET_H

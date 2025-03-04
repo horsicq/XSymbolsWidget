@@ -26,8 +26,8 @@ XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
 {
     ui->setupUi(this);
 
+    g_pDevice = nullptr;
     g_pXInfoDB = nullptr;
-    g_mode = XInfoDB::SYMBOL_MODE_ALL;
 }
 
 XSymbolsWidget::~XSymbolsWidget()
@@ -35,11 +35,12 @@ XSymbolsWidget::~XSymbolsWidget()
     delete ui;
 }
 
-void XSymbolsWidget::setData(XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, XInfoDB::SYMBOL_MODE mode, bool bReload)
+void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, bool bReload)
 {
+    g_pDevice = pDevice;
     g_pXInfoDB = pXInfoDB;
     g_profile = profile;
-    g_mode = mode;
+    g_options = options;
 
     if (bReload) {
         reload();
@@ -49,7 +50,7 @@ void XSymbolsWidget::setData(XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, XInfoD
 void XSymbolsWidget::reload()
 {
     if (g_pXInfoDB) {
-        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_profile, g_mode, this);
+        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_profile, g_options.symbolMode, this);
 
         ui->tableViewSymbols->setCustomModel(pModel, true);
         // XBinary::MODE modeAddress = XBinary::getModeOS();
