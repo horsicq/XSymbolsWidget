@@ -177,3 +177,14 @@ qint32 XModel_XSymbol::getColumnSymbolSize(qint32 nColumn)
 {
     return g_nColumnWidths[nColumn];
 }
+
+XModel::SORT_METHOD XModel_XSymbol::getSortMethod(qint32 nColumn)
+{
+    SORT_METHOD result = SORT_METHOD_DEFAULT;
+
+    if ((nColumn == COLUMN_OFFSET) || (nColumn == COLUMN_OFFSET) || (nColumn == COLUMN_SIZE)) {
+        result = SORT_METHOD_HEX;
+    }
+
+    return result;
+}
