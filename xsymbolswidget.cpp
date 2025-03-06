@@ -35,12 +35,13 @@ XSymbolsWidget::~XSymbolsWidget()
     delete ui;
 }
 
-void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, bool bReload)
+void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB *pXInfoDB, bool bReload)
 {
     g_pDevice = pDevice;
     g_pXInfoDB = pXInfoDB;
-    g_profile = profile;
     g_options = options;
+
+    XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
 
     if (bReload) {
         reload();
@@ -50,7 +51,7 @@ void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB
 void XSymbolsWidget::reload()
 {
     if (g_pXInfoDB) {
-        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_profile, g_options.symbolMode, this);
+        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_options.fileType, g_options.symbolMode, this);
 
         ui->tableViewSymbols->setCustomModel(pModel, true);
         // XBinary::MODE modeAddress = XBinary::getModeOS();

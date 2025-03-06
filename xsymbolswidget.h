@@ -45,7 +45,7 @@ public:
     explicit XSymbolsWidget(QWidget *pParent = nullptr);
     ~XSymbolsWidget();
 
-    void setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB *pXInfoDB, XInfoDB::PROFILE profile, bool bReload);
+    void setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB *pXInfoDB, bool bReload);
 
     void reload();
     virtual void adjustView();
@@ -67,7 +67,6 @@ private:
     Ui::XSymbolsWidget *ui;
     QIODevice *g_pDevice;
     XInfoDB *g_pXInfoDB;
-    XInfoDB::PROFILE g_profile;
     OPTIONS g_options;
 };
 
