@@ -28,6 +28,7 @@
 #include "xinfodb.h"
 #include "xshortcutswidget.h"
 #include "xmodel_xsymbol.h"
+#include "dialogxinfodbtransferprocess.h"
 
 namespace Ui {
 class XSymbolsWidget;
@@ -62,6 +63,8 @@ private slots:
     void on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected);
     void on_tableViewSymbols_clicked(const QModelIndex &index);
     void viewSelection();
+    void on_pushButtonReload_clicked();
+    void analyze();
 
 private:
     Ui::XSymbolsWidget *ui;

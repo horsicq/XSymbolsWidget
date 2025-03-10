@@ -41,9 +41,13 @@ void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB
     g_pXInfoDB = pXInfoDB;
     g_options = options;
 
-    XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
+    XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
 
     if (bReload) {
+        if (!g_pXInfoDB->isAnalyzed(fileType)) {
+            analyze();
+        }
+
         reload();
     }
 }
@@ -51,7 +55,8 @@ void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB
 void XSymbolsWidget::reload()
 {
     if (g_pXInfoDB) {
-        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_options.fileType, g_options.symbolMode, this);
+        XBinary::FT fileType = (XBinary::FT)(ui->comboBoxType->currentData().toUInt());
+        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, fileType, g_options.symbolMode, this);
 
         ui->tableViewSymbols->setCustomModel(pModel, true);
         // XBinary::MODE modeAddress = XBinary::getModeOS();
@@ -119,3 +124,28 @@ void XSymbolsWidget::viewSelection()
         }
     }
 }
+
+void XSymbolsWidget::on_pushButtonReload_clicked()
+{
+    analyze();
+    reload();
+}
+
+void XSymbolsWidget::analyze()
+{
+    XBinary::FT fileType = (XBinary::FT)(ui->comboBoxType->currentData().toUInt());
+
+    DialogXInfoDBTransferProcess dialogTransfer(this);
+    dialogTransfer.setGlobal(getShortcuts(), getGlobalOptions());
+    XInfoDBTransfer::OPTIONS options = {};
+    options.pDevice = g_pDevice;
+    options.fileType = fileType;
+
+    // options.nModuleAddress = -1;
+    // options.bIsImage = false;
+
+    dialogTransfer.setData(g_pXInfoDB, XInfoDBTransfer::COMMAND_ANALYZEALL, options);
+
+    dialogTransfer.showDialogDelay();
+}
+
