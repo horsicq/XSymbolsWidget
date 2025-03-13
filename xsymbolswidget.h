@@ -59,11 +59,11 @@ protected:
     virtual void registerShortcuts(bool bState);
 
 private slots:
-    void on_pushButtonSaveSymbols_clicked();
+    void on_toolButtonSaveSymbols_clicked();
     void on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected);
     void on_tableViewSymbols_clicked(const QModelIndex &index);
     void viewSelection();
-    void on_pushButtonReload_clicked();
+    void on_toolButtonReload_clicked();
     void analyze();
 
 private:

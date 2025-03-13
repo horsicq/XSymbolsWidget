@@ -83,7 +83,7 @@ void XSymbolsWidget::registerShortcuts(bool bState)
     Q_UNUSED(bState)
 }
 
-void XSymbolsWidget::on_pushButtonSaveSymbols_clicked()
+void XSymbolsWidget::on_toolButtonSaveSymbols_clicked()
 {
     XShortcutsWidget::saveTableModel(ui->tableViewSymbols->getProxyModel(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Symbols"))));
 }
@@ -125,7 +125,7 @@ void XSymbolsWidget::viewSelection()
     }
 }
 
-void XSymbolsWidget::on_pushButtonReload_clicked()
+void XSymbolsWidget::on_toolButtonReload_clicked()
 {
     analyze();
     reload();
@@ -140,6 +140,8 @@ void XSymbolsWidget::analyze()
     XInfoDBTransfer::OPTIONS options = {};
     options.pDevice = g_pDevice;
     options.fileType = fileType;
+    options.nModuleAddress = -1;
+    options.bIsImage = false;
 
     // options.nModuleAddress = -1;
     // options.bIsImage = false;
