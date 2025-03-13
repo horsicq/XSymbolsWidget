@@ -150,4 +150,3 @@ void XSymbolsWidget::analyze()
 
     dialogTransfer.showDialogDelay();
 }
-
