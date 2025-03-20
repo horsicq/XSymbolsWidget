@@ -150,3 +150,19 @@ void XSymbolsWidget::analyze()
 
     dialogTransfer.showDialogDelay();
 }
+
+void XSymbolsWidget::on_tableViewSymbols_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu contextMenu(this);
+
+    QList<XShortcuts::MENUITEM> listMenuItems;
+
+    getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableViewSymbols);
+
+    QList<QObject *> listObjects = getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
+
+    contextMenu.exec(ui->tableViewSymbols->viewport()->mapToGlobal(pos));
+
+    XOptions::deleteQObjectList(&listObjects);
+}
+

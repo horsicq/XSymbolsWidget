@@ -65,6 +65,7 @@ private slots:
     void viewSelection();
     void on_toolButtonReload_clicked();
     void analyze();
+    void on_tableViewSymbols_customContextMenuRequested(const QPoint &pos);
 
 private:
     Ui::XSymbolsWidget *ui;
