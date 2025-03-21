@@ -40,7 +40,10 @@ class XSymbolsWidget : public XShortcutsWidget {
 public:
     struct OPTIONS {
         XBinary::FT fileType;
+        XBinary::DM disasmMode;
         XInfoDB::SYMBOL_MODE symbolMode;
+        bool bMenu_Hex;
+        bool bMenu_Disasm;
     };
 
     explicit XSymbolsWidget(QWidget *pParent = nullptr);
@@ -54,6 +57,10 @@ public:
 
 signals:
     void currentSymbolChanged(XADDR nAddress, qint64 nSize);
+
+private slots:
+    void _hex();
+    void _disasm();
 
 protected:
     virtual void registerShortcuts(bool bState);
@@ -72,6 +79,7 @@ private:
     QIODevice *g_pDevice;
     XInfoDB *g_pXInfoDB;
     OPTIONS g_options;
+    XInfoDB::MODE g_infoMode;
 };
 
 #endif  // XSYMBOLSWIDGET_H
