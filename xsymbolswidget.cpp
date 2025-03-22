@@ -42,9 +42,9 @@ void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB
     g_pXInfoDB = pXInfoDB;
     g_options = options;
 
-    XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
+    // XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
 
-    g_infoMode = XInfoDB::getMode(options.fileType, options.disasmMode);
+    // g_infoMode = XInfoDB::getMode(options.fileType, options.disasmMode);
 
     if (bReload) {
         if (!g_pXInfoDB->isAnalyzed(g_infoMode)) {
@@ -59,7 +59,7 @@ void XSymbolsWidget::reload()
 {
     if (g_pXInfoDB) {
         XBinary::FT fileType = (XBinary::FT)(ui->comboBoxType->currentData().toUInt());
-        XBinary::DM disasmMode = g_options.disasmMode;
+        // XBinary::DM disasmMode = g_options.disasmMode;
         XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_infoMode, g_options.symbolMode, this);
 
         ui->tableViewSymbols->setCustomModel(pModel, true);
@@ -181,10 +181,10 @@ void XSymbolsWidget::analyze()
     dialogTransfer.setGlobal(getShortcuts(), getGlobalOptions());
     XInfoDBTransfer::OPTIONS options = {};
     options.pDevice = g_pDevice;
-    options.fileType = fileType;
-    options.disasmMode = g_options.disasmMode;
-    options.nModuleAddress = -1;
-    options.bIsImage = false;
+    // options.fileType = fileType;
+    // options.disasmMode = g_options.disasmMode;
+    // options.nModuleAddress = -1;
+    // options.bIsImage = false;
 
     // options.nModuleAddress = -1;
     // options.bIsImage = false;

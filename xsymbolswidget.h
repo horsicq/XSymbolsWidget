@@ -39,8 +39,6 @@ class XSymbolsWidget : public XShortcutsWidget {
 
 public:
     struct OPTIONS {
-        XBinary::FT fileType;
-        XBinary::DM disasmMode;
         XInfoDB::SYMBOL_MODE symbolMode;
         bool bMenu_Hex;
         bool bMenu_Disasm;
