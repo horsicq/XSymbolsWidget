@@ -216,4 +216,3 @@ void XSymbolsWidget::on_tableViewSymbols_customContextMenuRequested(const QPoint
 
     XOptions::deleteQObjectList(&listObjects);
 }
-
