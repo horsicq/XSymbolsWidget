@@ -93,12 +93,6 @@ void XSymbolsWidget::_hex()
             qint64 nOffset = ui->tableViewSymbols->model()->data(index, Qt::UserRole + XModel_XSymbol::USERROLE_OFFSET).toLongLong();
             qint64 nSize = ui->tableViewSymbols->model()->data(index, Qt::UserRole + XModel_XSymbol::USERROLE_SIZE).toLongLong();
 
-            XIODevice *pSubDevice = dynamic_cast<XIODevice *>(g_pDevice);
-
-            if (pSubDevice) {
-                nOffset += pSubDevice->getInitLocation();
-            }
-
             emit followLocation(nOffset, XBinary::LT_OFFSET, nSize, XOptions::WIDGETTYPE_HEX);
         }
     }
