@@ -21,12 +21,12 @@
 
 #include "xmodel_xsymbol.h"
 
-XModel_XSymbol::XModel_XSymbol(XInfoDB *pXInfoDB, XInfoDB::MODE infoMode, XInfoDB::SYMBOL_MODE symbolMode, QObject *parent) : XModel(parent)
+XModel_XSymbol::XModel_XSymbol(XInfoDB *pXInfoDB, XBinary::FT fileType, XInfoDB::SYMBOL_MODE symbolMode, QObject *parent) : XModel(parent)
 {
     g_pXInfoDB = pXInfoDB;
     g_symbolMode = symbolMode;
 
-    g_pState = g_pXInfoDB->getState(infoMode);
+    g_pState = g_pXInfoDB->getState(fileType);
 
     g_nRowCount = g_pState->listSymbols.count();
     g_nColumnCount = __COLUMN_SIZE;

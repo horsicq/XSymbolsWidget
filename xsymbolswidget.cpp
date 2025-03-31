@@ -28,7 +28,6 @@ XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
 
     g_pDevice = nullptr;
     g_pXInfoDB = nullptr;
-    g_infoMode = XInfoDB::MODE_UNKNOWN;
 }
 
 XSymbolsWidget::~XSymbolsWidget()
@@ -42,12 +41,10 @@ void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB
     g_pXInfoDB = pXInfoDB;
     g_options = options;
 
-    // XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
-
-    // g_infoMode = XInfoDB::getMode(options.fileType, options.disasmMode);
+    XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType, XBinary::TL_OPTION_SYMBOLS);
 
     if (bReload) {
-        if (!g_pXInfoDB->isAnalyzed(g_infoMode)) {
+        if (!g_pXInfoDB->isAnalyzed(fileType)) {
             analyze();
         }
 
@@ -60,7 +57,7 @@ void XSymbolsWidget::reload()
     if (g_pXInfoDB) {
         XBinary::FT fileType = (XBinary::FT)(ui->comboBoxType->currentData().toUInt());
         // XBinary::DM disasmMode = g_options.disasmMode;
-        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, g_infoMode, g_options.symbolMode, this);
+        XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, fileType, g_options.symbolMode, this);
 
         ui->tableViewSymbols->setCustomModel(pModel, true);
         // XBinary::MODE modeAddress = XBinary::getModeOS();

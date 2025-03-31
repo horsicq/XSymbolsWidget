@@ -46,7 +46,7 @@ public:
         USERROLE_TYPE
     };
 
-    explicit XModel_XSymbol(XInfoDB *pXInfoDB, XInfoDB::MODE infoMode, XInfoDB::SYMBOL_MODE symbolMode, QObject *parent = nullptr);
+    explicit XModel_XSymbol(XInfoDB *pXInfoDB, XBinary::FT fileType, XInfoDB::SYMBOL_MODE symbolMode, QObject *parent = nullptr);
 
     virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     virtual QModelIndex parent(const QModelIndex &child) const;

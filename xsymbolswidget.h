@@ -39,6 +39,7 @@ class XSymbolsWidget : public XShortcutsWidget {
 
 public:
     struct OPTIONS {
+        XBinary::FT fileType;
         XInfoDB::SYMBOL_MODE symbolMode;
         bool bMenu_Hex;
         bool bMenu_Disasm;
@@ -77,7 +78,6 @@ private:
     QIODevice *g_pDevice;
     XInfoDB *g_pXInfoDB;
     OPTIONS g_options;
-    XInfoDB::MODE g_infoMode;
 };
 
 #endif  // XSYMBOLSWIDGET_H
