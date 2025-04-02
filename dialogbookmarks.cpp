@@ -64,7 +64,7 @@ void DialogBookmarks::reload()
     listHeaders.append(tr("Comment"));
     listHeaders.append("");
 
-    QList<XInfoDB::BOOKMARKRECORD> listRecord;
+    QVector<XInfoDB::BOOKMARKRECORD> listRecord;
 
     if (g_nOffset != -1) {
         listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nOffset, XBinary::LT_OFFSET, g_nSize));
@@ -105,7 +105,7 @@ void DialogBookmarks::reload()
             ui->tableWidgetBookmarks->setItem(i, 1, pItem);
         }
         {
-            QString sColor = XInfoDB::colorToString(listRecord.at(i).colBackground);
+            QString sColor = listRecord.at(i).sColorBackground;
             QPushButton *pPushButtonBackgroundColor = new QPushButton;
             pPushButtonBackgroundColor->setText("");
             pPushButtonBackgroundColor->setStyleSheet(QString("background-color: %1").arg(sColor));
@@ -153,12 +153,12 @@ void DialogBookmarks::pushButtonColorSlot()
         QString sUUID = pPushButton->property("UUID").toString();
         QString sColor = pPushButton->property("COLOR").toString();
 
-        QColor color = XInfoDB::stringToColor(sColor);
+        QColor color = XOptions::stringToColor(sColor);
 
         color = XOptions::getColorDialog(this, tr("Background"), color);
 
         if (color.isValid()) {
-            sColor = XInfoDB::colorToString(color);
+            sColor = XOptions::colorToString(color);
 
             pPushButton->setStyleSheet(QString("background-color: %1").arg(sColor));
 
