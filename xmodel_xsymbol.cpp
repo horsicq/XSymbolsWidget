@@ -21,7 +21,7 @@
 
 #include "xmodel_xsymbol.h"
 
-XModel_XSymbol::XModel_XSymbol(XInfoDB *pXInfoDB, XBinary::FT fileType, XInfoDB::SYMBOL_MODE symbolMode, QObject *parent) : XModel(parent)
+XModel_XSymbol::XModel_XSymbol(XInfoDB *pXInfoDB, XBinary::FT fileType, XInfoDB::SYMBOL_MODE symbolMode, QObject *pParent) : XModel(pParent)
 {
     g_pXInfoDB = pXInfoDB;
     g_symbolMode = symbolMode;
