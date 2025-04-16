@@ -115,6 +115,7 @@ QVariant XModel_XSymbol::data(const QModelIndex &index, int nRole) const
                 } else if (nColumn == COLUMN_SIZE) {
                     result = QString::number(g_pState->listSymbols.at(nRow).nSize, 16);
                 } else if (nColumn == COLUMN_SYMBOL) {
+                    result = g_pXInfoDB->_getSymbolStringBySegmentRelOffset(g_pState, g_pState->listSymbols.at(nRow).nRegionIndex, g_pState->listSymbols.at(nRow).nRelOffset);
                 }
             } else if (nRole == Qt::UserRole + USERROLE_ADDRESS) {
                 qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
