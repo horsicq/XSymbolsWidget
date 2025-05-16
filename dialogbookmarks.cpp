@@ -162,7 +162,7 @@ void DialogBookmarks::pushButtonColorSlot()
 
             pPushButton->setStyleSheet(QString("background-color: %1").arg(sColor));
 
-            g_pXInfoDB->updateBookmarkRecordColor(sUUID, color);
+            g_pXInfoDB->updateBookmarkRecordColorBackground(sUUID, sColor);
             g_pXInfoDB->reloadView();
         }
     }
@@ -175,7 +175,7 @@ void DialogBookmarks::pushButtonRemoveSlot()
     if (pPushButton) {
         QString sUUID = pPushButton->property("UUID").toString();
 
-        g_pXInfoDB->_removeBookmarkRecord(sUUID);
+        g_pXInfoDB->removeBookmarkRecord(sUUID);
         g_pXInfoDB->reloadView();
 
         reload();
