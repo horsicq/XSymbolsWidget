@@ -69,11 +69,15 @@ QModelIndex XModel_XSymbol::parent(const QModelIndex &child) const
 
 int XModel_XSymbol::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
+
     return g_nRowCount;
 }
 
 int XModel_XSymbol::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
+
     return g_nColumnCount;
 }
 
@@ -103,13 +107,13 @@ QVariant XModel_XSymbol::data(const QModelIndex &index, int nRole) const
                 } else if (nColumn == COLUMN_ADDRESS) {
                     qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
                     if (nRegionIndex != -1) {
-                        if (g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress != -1) {
+                        if (g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress != (XADDR)-1) {
                             result =
                                 XBinary::valueToHex(g_modeAddress, g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress + g_pState->listSymbols.at(nRow).nRelOffset);
                         }
                     }
                 } else if (nColumn == COLUMN_REGION) {
-                    if (g_pState->listSymbols.at(nRow).nRegionIndex >= 0) {
+                    if (g_pState->listSymbols.at(nRow).nRegionIndex != (quint16)-1) {
                         result = g_pState->memoryMap.listRecords.at(g_pState->listSymbols.at(nRow).nRegionIndex).sName;
                     }
                 } else if (nColumn == COLUMN_SIZE) {
@@ -121,7 +125,7 @@ QVariant XModel_XSymbol::data(const QModelIndex &index, int nRole) const
             } else if (nRole == Qt::UserRole + USERROLE_ADDRESS) {
                 qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
                 if (nRegionIndex != -1) {
-                    if (g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress != -1) {
+                    if (g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress != (XADDR)-1) {
                         result = g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress + g_pState->listSymbols.at(nRow).nRelOffset;
                     }
                 }
