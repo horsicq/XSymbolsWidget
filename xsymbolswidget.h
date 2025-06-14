@@ -28,7 +28,8 @@
 #include "xinfodb.h"
 #include "xshortcutswidget.h"
 #include "xmodel_xsymbol.h"
-#include "dialogxinfodbtransferprocess.h"
+#include "xdialogprocess.h"
+#include "xinfodbtransfer.h"
 
 namespace Ui {
 class XSymbolsWidget;

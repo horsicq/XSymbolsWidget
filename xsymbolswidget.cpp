@@ -171,8 +171,6 @@ void XSymbolsWidget::analyze()
 {
     XBinary::FT fileType = (XBinary::FT)(ui->comboBoxType->currentData().toUInt());
 
-    DialogXInfoDBTransferProcess dialogTransfer(this);
-    dialogTransfer.setGlobal(getShortcuts(), getGlobalOptions());
     XInfoDBTransfer::OPTIONS options = {};
     options.pDevice = g_pDevice;
     options.fileType = fileType;
@@ -183,8 +181,11 @@ void XSymbolsWidget::analyze()
     // options.nModuleAddress = -1;
     // options.bIsImage = false;
 
-    dialogTransfer.setData(g_pXInfoDB, XInfoDBTransfer::COMMAND_ANALYZEALL, options);
-
+    XInfoDBTransfer infoTransfer;
+    XDialogProcess dialogTransfer(this, &infoTransfer);
+    dialogTransfer.setGlobal(getShortcuts(), getGlobalOptions());
+    infoTransfer.setData(g_pXInfoDB, XInfoDBTransfer::COMMAND_ANALYZEALL, options, dialogTransfer.getPdStruct());
+    dialogTransfer.start();
     dialogTransfer.showDialogDelay();
 }
 
