@@ -41,14 +41,16 @@ void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB
     g_pXInfoDB = pXInfoDB;
     g_options = options;
 
-    XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType, XBinary::TL_OPTION_SYMBOLS);
+    if (pDevice) {
+        XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType, XBinary::TL_OPTION_SYMBOLS);
 
-    if (bReload) {
-        if (!g_pXInfoDB->isAnalyzed(fileType)) {
-            analyze();
+        if (bReload) {
+            if (!g_pXInfoDB->isAnalyzed(fileType)) {
+                analyze();
+            }
+
+            reload();
         }
-
-        reload();
     }
 }
 
