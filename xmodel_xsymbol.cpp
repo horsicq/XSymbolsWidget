@@ -28,57 +28,28 @@ XModel_XSymbol::XModel_XSymbol(XInfoDB *pXInfoDB, XBinary::FT fileType, XInfoDB:
 
     g_pState = g_pXInfoDB->getState(fileType);
 
-    g_nRowCount = g_pState->listSymbols.count();
-    g_nColumnCount = __COLUMN_SIZE;
+    _setRowCount(g_pState->listSymbols.count());
+    _setColumnCount(__COLUMN_SIZE);
 
     g_modeAddress = XBinary::getWidthModeFromSize(g_pState->memoryMap.nModuleAddress + g_pState->memoryMap.nImageSize);
     g_modeOffset = XBinary::getWidthModeFromSize(g_pState->memoryMap.nBinarySize);
 
-    g_nColumnWidths[COLUMN_NUMBER] = QString::number(g_nRowCount).length();
-    g_nColumnWidths[COLUMN_OFFSET] = XBinary::getByteSizeFromWidthMode(g_modeOffset) * 2;
-    g_nColumnWidths[COLUMN_ADDRESS] = XBinary::getByteSizeFromWidthMode(g_modeAddress) * 2;
-    g_nColumnWidths[COLUMN_REGION] = 1;
-    g_nColumnWidths[COLUMN_SIZE] = 4;
-    g_nColumnWidths[COLUMN_SYMBOL] = 100;
+    setColumnSymbolSize(COLUMN_NUMBER, QString::number(rowCount()).length());
+    setColumnSymbolSize(COLUMN_OFFSET, XBinary::getByteSizeFromWidthMode(g_modeOffset) * 2);
+    setColumnSymbolSize(COLUMN_ADDRESS, XBinary::getByteSizeFromWidthMode(g_modeAddress) * 2);
+    setColumnSymbolSize(COLUMN_REGION, 1);
+    setColumnSymbolSize(COLUMN_SIZE, 4);
+    setColumnSymbolSize(COLUMN_SYMBOL, 100);
 
     qint32 nNumberOfRegions = g_pState->memoryMap.listRecords.count();
+    qint32 nMaxRegionNameLength = 4;
 
     for (qint32 i = 0; i < nNumberOfRegions; i++) {
-        g_nColumnWidths[COLUMN_REGION] = qMax(g_nColumnWidths[COLUMN_REGION], g_pState->memoryMap.listRecords.at(i).sName.length());
-        g_nColumnWidths[COLUMN_REGION] = qMin(g_nColumnWidths[COLUMN_REGION], 50);
-    }
-}
-
-QModelIndex XModel_XSymbol::index(int row, int column, const QModelIndex &parent) const
-{
-    QModelIndex result;
-
-    if (hasIndex(row, column, parent)) {
-        result = createIndex(row, column);
+        nMaxRegionNameLength = qMax(nMaxRegionNameLength, g_pState->memoryMap.listRecords.at(i).sName.length());
+        nMaxRegionNameLength = qMin(50, nMaxRegionNameLength);
     }
 
-    return result;
-}
-
-QModelIndex XModel_XSymbol::parent(const QModelIndex &child) const
-{
-    Q_UNUSED(child)
-
-    return QModelIndex();
-}
-
-int XModel_XSymbol::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-
-    return g_nRowCount;
-}
-
-int XModel_XSymbol::columnCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-
-    return g_nColumnCount;
+    setColumnSymbolSize(COLUMN_REGION, nMaxRegionNameLength);
 }
 
 QVariant XModel_XSymbol::data(const QModelIndex &index, int nRole) const
@@ -176,11 +147,6 @@ QVariant XModel_XSymbol::headerData(int nSection, Qt::Orientation orientation, i
     }
 
     return result;
-}
-
-qint32 XModel_XSymbol::getColumnSymbolSize(qint32 nColumn)
-{
-    return g_nColumnWidths[nColumn];
 }
 
 XModel::SORT_METHOD XModel_XSymbol::getSortMethod(qint32 nColumn)

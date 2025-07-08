@@ -39,22 +39,10 @@ public:
         __COLUMN_SIZE
     };
 
-    enum USERROLE {
-        USERROLE_SIZE = 0,
-        USERROLE_OFFSET,
-        USERROLE_ADDRESS,
-        USERROLE_TYPE
-    };
-
     explicit XModel_XSymbol(XInfoDB *pXInfoDB, XBinary::FT fileType, XInfoDB::SYMBOL_MODE symbolMode, QObject *pParent = nullptr);
 
-    virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-    virtual QModelIndex parent(const QModelIndex &child) const;
-    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int nRole = Qt::DisplayRole) const;
     virtual QVariant headerData(int nSection, Qt::Orientation orientation, int nRole = Qt::DisplayRole) const;
-    virtual qint32 getColumnSymbolSize(qint32 nColumn);
     virtual SORT_METHOD getSortMethod(qint32 nColumn);
 
 private:
@@ -62,9 +50,6 @@ private:
     XBinary::FT g_fileType;
     XInfoDB::SYMBOL_MODE g_symbolMode;
     XInfoDB::STATE *g_pState;
-    qint32 g_nRowCount;
-    qint32 g_nColumnCount;
-    qint32 g_nColumnWidths[__COLUMN_SIZE];
     XBinary::MODE g_modeAddress;
     XBinary::MODE g_modeOffset;
 };
