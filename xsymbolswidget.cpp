@@ -150,9 +150,9 @@ void XSymbolsWidget::viewSelection()
 
         if (listIndexes.count()) {
             QModelIndex indexNumber = listIndexes.at(XModel_XSymbol::COLUMN_NUMBER);
-            XADDR nVirtualAddress = ui->tableViewSymbols->model()->data(indexNumber, Qt::UserRole + XModel_XSymbol::USERROLE_ADDRESS).toULongLong();
-            qint64 nOffset = ui->tableViewSymbols->model()->data(indexNumber, Qt::UserRole + XModel_XSymbol::USERROLE_OFFSET).toULongLong();
-            qint64 nSize = ui->tableViewSymbols->model()->data(indexNumber, Qt::UserRole + XModel_XSymbol::USERROLE_SIZE).toLongLong();
+            XADDR nVirtualAddress = ui->tableViewSymbols->model()->data(indexNumber, Qt::UserRole + XModel::USERROLE_ADDRESS).toULongLong();
+            qint64 nOffset = ui->tableViewSymbols->model()->data(indexNumber, Qt::UserRole + XModel::USERROLE_OFFSET).toULongLong();
+            qint64 nSize = ui->tableViewSymbols->model()->data(indexNumber, Qt::UserRole + XModel::USERROLE_SIZE).toLongLong();
 
             if (nOffset != -1) {
                 emit currentLocationChanged(nOffset, XBinary::LT_OFFSET, nSize);

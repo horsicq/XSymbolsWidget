@@ -93,6 +93,8 @@ QVariant XModel_XSymbol::data(const QModelIndex &index, int nRole) const
                     result =
                         g_pXInfoDB->_getSymbolStringBySegmentRelOffset(g_pState, g_pState->listSymbols.at(nRow).nRegionIndex, g_pState->listSymbols.at(nRow).nRelOffset);
                 }
+            } else if (nRole == Qt::UserRole + USERROLE_ORIGINDEX) {
+                result = nRow;
             } else if (nRole == Qt::UserRole + USERROLE_ADDRESS) {
                 qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
                 if (nRegionIndex != -1) {
