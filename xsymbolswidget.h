@@ -76,7 +76,7 @@ private slots:
 
 private:
     Ui::XSymbolsWidget *ui;
-    QIODevice *g_pDevice;
+    QIODevice *m_pDevice;
     XInfoDB *g_pXInfoDB;
     OPTIONS g_options;
 };

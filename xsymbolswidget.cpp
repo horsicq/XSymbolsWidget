@@ -26,7 +26,7 @@ XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
 {
     ui->setupUi(this);
 
-    g_pDevice = nullptr;
+    m_pDevice = nullptr;
     g_pXInfoDB = nullptr;
 }
 
@@ -37,12 +37,12 @@ XSymbolsWidget::~XSymbolsWidget()
 
 void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB *pXInfoDB, bool bReload)
 {
-    g_pDevice = pDevice;
+    m_pDevice = pDevice;
     g_pXInfoDB = pXInfoDB;
     g_options = options;
 
     if (pDevice) {
-        XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType, XBinary::TL_OPTION_SYMBOLS);
+        XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, m_pDevice, ui->comboBoxType, XBinary::TL_OPTION_SYMBOLS);
 
         if (bReload) {
             if (!g_pXInfoDB->isAnalyzed(fileType)) {
@@ -123,7 +123,7 @@ void XSymbolsWidget::registerShortcuts(bool bState)
 
 void XSymbolsWidget::on_toolButtonSaveSymbols_clicked()
 {
-    XShortcutsWidget::saveTableModel(ui->tableViewSymbols->getProxyModel(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Symbols"))));
+    XShortcutsWidget::saveTableModel(ui->tableViewSymbols->getProxyModel(), XBinary::getResultFileName(m_pDevice, QString("%1.txt").arg(tr("Symbols"))));
 }
 
 void XSymbolsWidget::on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected)
@@ -174,7 +174,7 @@ void XSymbolsWidget::analyze()
     XBinary::FT fileType = (XBinary::FT)(ui->comboBoxType->currentData().toUInt());
 
     XInfoDBTransfer::OPTIONS options = {};
-    options.pDevice = g_pDevice;
+    options.pDevice = m_pDevice;
     options.fileType = fileType;
     // options.disasmMode = g_options.disasmMode;
     // options.nModuleAddress = -1;
