@@ -50,8 +50,8 @@ private:
     XBinary::FT g_fileType;
     XInfoDB::SYMBOL_MODE g_symbolMode;
     XInfoDB::STATE *g_pState;
-    XBinary::MODE g_modeAddress;
-    XBinary::MODE g_modeOffset;
+    XBinary::MODE m_modeAddress;
+    XBinary::MODE m_modeOffset;
 };
 
 #endif  // XMODEL_XSYMBOL_H

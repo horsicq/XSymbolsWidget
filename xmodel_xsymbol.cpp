@@ -31,12 +31,12 @@ XModel_XSymbol::XModel_XSymbol(XInfoDB *pXInfoDB, XBinary::FT fileType, XInfoDB:
     _setRowCount(g_pState->listSymbols.count());
     _setColumnCount(__COLUMN_SIZE);
 
-    g_modeAddress = XBinary::getWidthModeFromSize(g_pState->memoryMap.nModuleAddress + g_pState->memoryMap.nImageSize);
-    g_modeOffset = XBinary::getWidthModeFromSize(g_pState->memoryMap.nBinarySize);
+    m_modeAddress = XBinary::getWidthModeFromSize(g_pState->memoryMap.nModuleAddress + g_pState->memoryMap.nImageSize);
+    m_modeOffset = XBinary::getWidthModeFromSize(g_pState->memoryMap.nBinarySize);
 
     setColumnSymbolSize(COLUMN_NUMBER, QString::number(rowCount()).length());
-    setColumnSymbolSize(COLUMN_OFFSET, XBinary::getByteSizeFromWidthMode(g_modeOffset) * 2);
-    setColumnSymbolSize(COLUMN_ADDRESS, XBinary::getByteSizeFromWidthMode(g_modeAddress) * 2);
+    setColumnSymbolSize(COLUMN_OFFSET, XBinary::getByteSizeFromWidthMode(m_modeOffset) * 2);
+    setColumnSymbolSize(COLUMN_ADDRESS, XBinary::getByteSizeFromWidthMode(m_modeAddress) * 2);
     setColumnSymbolSize(COLUMN_REGION, 1);
     setColumnSymbolSize(COLUMN_SIZE, 4);
     setColumnSymbolSize(COLUMN_SYMBOL, 100);
@@ -70,17 +70,17 @@ QVariant XModel_XSymbol::data(const QModelIndex &index, int nRole) const
                     if (nRegionIndex != -1) {
                         if (g_pState->memoryMap.listRecords.at(nRegionIndex).nOffset != -1) {
                             result =
-                                XBinary::valueToHex(g_modeOffset, g_pState->memoryMap.listRecords.at(nRegionIndex).nOffset + g_pState->listSymbols.at(nRow).nRelOffset);
+                                XBinary::valueToHex(m_modeOffset, g_pState->memoryMap.listRecords.at(nRegionIndex).nOffset + g_pState->listSymbols.at(nRow).nRelOffset);
                         }
                     } else {
-                        result = XBinary::valueToHex(g_modeOffset, g_pState->listSymbols.at(nRow).nRelOffset);
+                        result = XBinary::valueToHex(m_modeOffset, g_pState->listSymbols.at(nRow).nRelOffset);
                     }
                 } else if (nColumn == COLUMN_ADDRESS) {
                     qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
                     if (nRegionIndex != -1) {
                         if (g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress != (XADDR)-1) {
                             result =
-                                XBinary::valueToHex(g_modeAddress, g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress + g_pState->listSymbols.at(nRow).nRelOffset);
+                                XBinary::valueToHex(m_modeAddress, g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress + g_pState->listSymbols.at(nRow).nRelOffset);
                         }
                     }
                 } else if (nColumn == COLUMN_REGION) {
