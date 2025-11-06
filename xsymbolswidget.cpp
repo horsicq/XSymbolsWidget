@@ -207,9 +207,9 @@ void XSymbolsWidget::on_tableViewSymbols_customContextMenuRequested(const QPoint
         getShortcuts()->_addMenuItem(&listMenuItems, X_ID_TABLE_FOLLOWIN_DISASM, this, SLOT(_disasm()), XShortcuts::GROUPID_FOLLOWIN);
     }
 
-    QList<QObject *> listObjects = getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
+    getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
     contextMenu.exec(ui->tableViewSymbols->viewport()->mapToGlobal(pos));
 
-    XOptions::deleteQObjectList(&listObjects);
+
 }
