@@ -210,6 +210,4 @@ void XSymbolsWidget::on_tableViewSymbols_customContextMenuRequested(const QPoint
     getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
     contextMenu.exec(ui->tableViewSymbols->viewport()->mapToGlobal(pos));
-
-
 }
