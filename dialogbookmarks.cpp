@@ -25,10 +25,10 @@ DialogBookmarks::DialogBookmarks(QWidget *pParent) : XShortcutsDialog(pParent, f
 {
     ui->setupUi(this);
 
-    g_pXInfoDB = nullptr;
-    g_nOffset = 0;
-    g_nAddress = 0;
-    g_nSize = 0;
+    m_pXInfoDB = nullptr;
+    m_nOffset = 0;
+    m_nAddress = 0;
+    m_nSize = 0;
 }
 
 DialogBookmarks::~DialogBookmarks()
@@ -38,12 +38,12 @@ DialogBookmarks::~DialogBookmarks()
 
 void DialogBookmarks::setData(XInfoDB *pXInfoDB, qint64 nOffset, XADDR nAddress, qint64 nSize)
 {
-    g_pXInfoDB = pXInfoDB;
-    g_nOffset = nOffset;
-    g_nAddress = nAddress;
-    g_nSize = nSize;
+    m_pXInfoDB = pXInfoDB;
+    m_nOffset = nOffset;
+    m_nAddress = nAddress;
+    m_nSize = nSize;
 
-    connect(g_pXInfoDB, SIGNAL(reloadViewSignal()), this, SLOT(reload()));
+    connect(m_pXInfoDB, SIGNAL(reloadViewSignal()), this, SLOT(reload()));
 
     reload();
 }
@@ -66,12 +66,12 @@ void DialogBookmarks::reload()
 
     QVector<XInfoDB::BOOKMARKRECORD> listRecord;
 
-    if (g_nOffset != -1) {
-        listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nOffset, XBinary::LT_OFFSET, g_nSize));
+    if (m_nOffset != -1) {
+        listRecord.append(m_pXInfoDB->getBookmarkRecords(m_nOffset, XBinary::LT_OFFSET, m_nSize));
     }
 
-    if (g_nAddress != (XADDR)-1) {
-        listRecord.append(g_pXInfoDB->getBookmarkRecords(g_nAddress, XBinary::LT_ADDRESS, g_nSize));
+    if (m_nAddress != (XADDR)-1) {
+        listRecord.append(m_pXInfoDB->getBookmarkRecords(m_nAddress, XBinary::LT_ADDRESS, m_nSize));
     }
 
     qint32 nNumberOfRecords = listRecord.count();
@@ -162,8 +162,8 @@ void DialogBookmarks::pushButtonColorSlot()
 
             pPushButton->setStyleSheet(QString("background-color: %1").arg(sColor));
 
-            g_pXInfoDB->updateBookmarkRecordColorBackground(sUUID, sColor);
-            g_pXInfoDB->reloadView();
+            m_pXInfoDB->updateBookmarkRecordColorBackground(sUUID, sColor);
+            m_pXInfoDB->reloadView();
         }
     }
 }
@@ -175,8 +175,8 @@ void DialogBookmarks::pushButtonRemoveSlot()
     if (pPushButton) {
         QString sUUID = pPushButton->property("UUID").toString();
 
-        g_pXInfoDB->removeBookmarkRecord(sUUID);
-        g_pXInfoDB->reloadView();
+        m_pXInfoDB->removeBookmarkRecord(sUUID);
+        m_pXInfoDB->reloadView();
 
         reload();
     }
@@ -184,17 +184,17 @@ void DialogBookmarks::pushButtonRemoveSlot()
 
 void DialogBookmarks::lineEditTextChangedSlot(const QString &sText)
 {
-    const bool bBlocked1 = g_pXInfoDB->blockSignals(true);
+    const bool bBlocked1 = m_pXInfoDB->blockSignals(true);
 
     QLineEdit *pLineEdit = qobject_cast<QLineEdit *>(sender());
 
     if (pLineEdit) {
         QString sUUID = pLineEdit->property("UUID").toString();
-        g_pXInfoDB->updateBookmarkRecordComment(sUUID, sText);
-        g_pXInfoDB->reloadView();
+        m_pXInfoDB->updateBookmarkRecordComment(sUUID, sText);
+        m_pXInfoDB->reloadView();
     }
 
-    g_pXInfoDB->blockSignals(bBlocked1);
+    m_pXInfoDB->blockSignals(bBlocked1);
 }
 
 void DialogBookmarks::on_tableWidgetBookmarks_currentCellChanged(int nCurrentRow, int nCurrentColumn, int nPreviousRow, int nPreviousColumn)

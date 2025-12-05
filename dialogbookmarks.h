@@ -56,10 +56,10 @@ protected:
 
 private:
     Ui::DialogBookmarks *ui;
-    XInfoDB *g_pXInfoDB;
-    qint64 g_nOffset;
-    XADDR g_nAddress;
-    qint64 g_nSize;
+    XInfoDB *m_pXInfoDB;
+    qint64 m_nOffset;
+    XADDR m_nAddress;
+    qint64 m_nSize;
 };
 
 #endif  // DIALOGBOOKMARKS_H
