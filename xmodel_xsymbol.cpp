@@ -24,6 +24,7 @@
 XModel_XSymbol::XModel_XSymbol(XInfoDB *pXInfoDB, XBinary::FT fileType, XInfoDB::SYMBOL_MODE symbolMode, QObject *pParent) : XModel(pParent)
 {
     g_pXInfoDB = pXInfoDB;
+    g_fileType = fileType;
     g_symbolMode = symbolMode;
 
     g_pState = g_pXInfoDB->getState(fileType);
@@ -155,7 +156,7 @@ XModel::SORT_METHOD XModel_XSymbol::getSortMethod(qint32 nColumn)
 {
     SORT_METHOD result = SORT_METHOD_DEFAULT;
 
-    if ((nColumn == COLUMN_OFFSET) || (nColumn == COLUMN_OFFSET) || (nColumn == COLUMN_SIZE)) {
+    if ((nColumn == COLUMN_OFFSET) || (nColumn == COLUMN_ADDRESS) || (nColumn == COLUMN_SIZE)) {
         result = SORT_METHOD_HEX;
     }
 
