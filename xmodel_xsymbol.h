@@ -46,10 +46,10 @@ public:
     virtual SORT_METHOD getSortMethod(qint32 nColumn);
 
 private:
-    XInfoDB *g_pXInfoDB;
-    XBinary::FT g_fileType;
-    XInfoDB::SYMBOL_MODE g_symbolMode;
-    XInfoDB::STATE *g_pState;
+    XInfoDB *m_pXInfoDB;
+    XBinary::FT m_fileType;
+    XInfoDB::SYMBOL_MODE m_symbolMode;
+    XInfoDB::STATE *m_pState;
     XBinary::MODE m_modeAddress;
     XBinary::MODE m_modeOffset;
 };

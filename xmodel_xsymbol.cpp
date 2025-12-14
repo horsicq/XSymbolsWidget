@@ -23,17 +23,17 @@
 
 XModel_XSymbol::XModel_XSymbol(XInfoDB *pXInfoDB, XBinary::FT fileType, XInfoDB::SYMBOL_MODE symbolMode, QObject *pParent) : XModel(pParent)
 {
-    g_pXInfoDB = pXInfoDB;
-    g_fileType = fileType;
-    g_symbolMode = symbolMode;
+    m_pXInfoDB = pXInfoDB;
+    m_fileType = fileType;
+    m_symbolMode = symbolMode;
 
-    g_pState = g_pXInfoDB->getState(fileType);
+    m_pState = m_pXInfoDB->getState(fileType);
 
-    _setRowCount(g_pState->listSymbols.count());
+    _setRowCount(m_pState->listSymbols.count());
     _setColumnCount(__COLUMN_SIZE);
 
-    m_modeAddress = XBinary::getWidthModeFromSize(g_pState->memoryMap.nModuleAddress + g_pState->memoryMap.nImageSize);
-    m_modeOffset = XBinary::getWidthModeFromSize(g_pState->memoryMap.nBinarySize);
+    m_modeAddress = XBinary::getWidthModeFromSize(m_pState->memoryMap.nModuleAddress + m_pState->memoryMap.nImageSize);
+    m_modeOffset = XBinary::getWidthModeFromSize(m_pState->memoryMap.nBinarySize);
 
     setColumnSymbolSize(COLUMN_NUMBER, QString::number(rowCount()).length());
     setColumnSymbolSize(COLUMN_OFFSET, XBinary::getByteSizeFromWidthMode(m_modeOffset) * 2);
@@ -42,11 +42,11 @@ XModel_XSymbol::XModel_XSymbol(XInfoDB *pXInfoDB, XBinary::FT fileType, XInfoDB:
     setColumnSymbolSize(COLUMN_SIZE, 4);
     setColumnSymbolSize(COLUMN_SYMBOL, 100);
 
-    qint32 nNumberOfRegions = g_pState->memoryMap.listRecords.count();
+    qint32 nNumberOfRegions = m_pState->memoryMap.listRecords.count();
     qint32 nMaxRegionNameLength = 4;
 
     for (qint32 i = 0; i < nNumberOfRegions; i++) {
-        nMaxRegionNameLength = qMax(nMaxRegionNameLength, g_pState->memoryMap.listRecords.at(i).sName.length());
+        nMaxRegionNameLength = qMax(nMaxRegionNameLength, m_pState->memoryMap.listRecords.at(i).sName.length());
         nMaxRegionNameLength = qMin(50, nMaxRegionNameLength);
     }
 
@@ -67,53 +67,53 @@ QVariant XModel_XSymbol::data(const QModelIndex &index, int nRole) const
                 if (nColumn == COLUMN_NUMBER) {
                     result = nRow;
                 } else if (nColumn == COLUMN_OFFSET) {
-                    qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
+                    qint16 nRegionIndex = m_pState->listSymbols.at(nRow).nRegionIndex;
                     if (nRegionIndex != -1) {
-                        if (g_pState->memoryMap.listRecords.at(nRegionIndex).nOffset != -1) {
+                        if (m_pState->memoryMap.listRecords.at(nRegionIndex).nOffset != -1) {
                             result =
-                                XBinary::valueToHex(m_modeOffset, g_pState->memoryMap.listRecords.at(nRegionIndex).nOffset + g_pState->listSymbols.at(nRow).nRelOffset);
+                                XBinary::valueToHex(m_modeOffset, m_pState->memoryMap.listRecords.at(nRegionIndex).nOffset + m_pState->listSymbols.at(nRow).nRelOffset);
                         }
                     } else {
-                        result = XBinary::valueToHex(m_modeOffset, g_pState->listSymbols.at(nRow).nRelOffset);
+                        result = XBinary::valueToHex(m_modeOffset, m_pState->listSymbols.at(nRow).nRelOffset);
                     }
                 } else if (nColumn == COLUMN_ADDRESS) {
-                    qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
+                    qint16 nRegionIndex = m_pState->listSymbols.at(nRow).nRegionIndex;
                     if (nRegionIndex != -1) {
-                        if (g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress != (XADDR)-1) {
+                        if (m_pState->memoryMap.listRecords.at(nRegionIndex).nAddress != (XADDR)-1) {
                             result =
-                                XBinary::valueToHex(m_modeAddress, g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress + g_pState->listSymbols.at(nRow).nRelOffset);
+                                XBinary::valueToHex(m_modeAddress, m_pState->memoryMap.listRecords.at(nRegionIndex).nAddress + m_pState->listSymbols.at(nRow).nRelOffset);
                         }
                     }
                 } else if (nColumn == COLUMN_REGION) {
-                    if (g_pState->listSymbols.at(nRow).nRegionIndex != (quint16)-1) {
-                        result = g_pState->memoryMap.listRecords.at(g_pState->listSymbols.at(nRow).nRegionIndex).sName;
+                    if (m_pState->listSymbols.at(nRow).nRegionIndex != (quint16)-1) {
+                        result = m_pState->memoryMap.listRecords.at(m_pState->listSymbols.at(nRow).nRegionIndex).sName;
                     }
                 } else if (nColumn == COLUMN_SIZE) {
-                    result = QString::number(g_pState->listSymbols.at(nRow).nSize, 16);
+                    result = QString::number(m_pState->listSymbols.at(nRow).nSize, 16);
                 } else if (nColumn == COLUMN_SYMBOL) {
                     result =
-                        g_pXInfoDB->_getSymbolStringBySegmentRelOffset(g_pState, g_pState->listSymbols.at(nRow).nRegionIndex, g_pState->listSymbols.at(nRow).nRelOffset);
+                        m_pXInfoDB->_getSymbolStringBySegmentRelOffset(m_pState, m_pState->listSymbols.at(nRow).nRegionIndex, m_pState->listSymbols.at(nRow).nRelOffset);
                 }
             } else if (nRole == Qt::UserRole + USERROLE_ORIGINDEX) {
                 result = nRow;
             } else if (nRole == Qt::UserRole + USERROLE_ADDRESS) {
-                qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
+                qint16 nRegionIndex = m_pState->listSymbols.at(nRow).nRegionIndex;
                 if (nRegionIndex != -1) {
-                    if (g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress != (XADDR)-1) {
-                        result = g_pState->memoryMap.listRecords.at(nRegionIndex).nAddress + g_pState->listSymbols.at(nRow).nRelOffset;
+                    if (m_pState->memoryMap.listRecords.at(nRegionIndex).nAddress != (XADDR)-1) {
+                        result = m_pState->memoryMap.listRecords.at(nRegionIndex).nAddress + m_pState->listSymbols.at(nRow).nRelOffset;
                     }
                 }
             } else if (nRole == Qt::UserRole + USERROLE_OFFSET) {
-                qint16 nRegionIndex = g_pState->listSymbols.at(nRow).nRegionIndex;
+                qint16 nRegionIndex = m_pState->listSymbols.at(nRow).nRegionIndex;
                 if (nRegionIndex != -1) {
-                    if (g_pState->memoryMap.listRecords.at(nRegionIndex).nOffset != -1) {
-                        result = g_pState->memoryMap.listRecords.at(nRegionIndex).nOffset + g_pState->listSymbols.at(nRow).nRelOffset;
+                    if (m_pState->memoryMap.listRecords.at(nRegionIndex).nOffset != -1) {
+                        result = m_pState->memoryMap.listRecords.at(nRegionIndex).nOffset + m_pState->listSymbols.at(nRow).nRelOffset;
                     }
                 } else {
-                    result = g_pState->listSymbols.at(nRow).nRelOffset;
+                    result = m_pState->listSymbols.at(nRow).nRelOffset;
                 }
             } else if (nRole == Qt::UserRole + USERROLE_SIZE) {
-                result = g_pState->listSymbols.at(nRow).nSize;
+                result = m_pState->listSymbols.at(nRow).nSize;
             }
         }
     }
