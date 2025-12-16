@@ -27,7 +27,7 @@ XSymbolsWidget::XSymbolsWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
     ui->setupUi(this);
 
     m_pDevice = nullptr;
-    g_pXInfoDB = nullptr;
+    m_pXInfoDB = nullptr;
 }
 
 XSymbolsWidget::~XSymbolsWidget()
@@ -38,14 +38,14 @@ XSymbolsWidget::~XSymbolsWidget()
 void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB *pXInfoDB, bool bReload)
 {
     m_pDevice = pDevice;
-    g_pXInfoDB = pXInfoDB;
-    g_options = options;
+    m_pXInfoDB = pXInfoDB;
+    m_options = options;
 
     if (pDevice) {
         XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, m_pDevice, ui->comboBoxType, XBinary::TL_OPTION_SYMBOLS);
 
         if (bReload) {
-            if (!g_pXInfoDB->isAnalyzed(fileType)) {
+            if (!m_pXInfoDB->isAnalyzed(fileType)) {
                 analyze();
             }
 
@@ -56,12 +56,12 @@ void XSymbolsWidget::setData(QIODevice *pDevice, const OPTIONS &options, XInfoDB
 
 void XSymbolsWidget::reload()
 {
-    if (g_pXInfoDB) {
+    if (m_pXInfoDB) {
         XBinary::FT fileType = (XBinary::FT)(ui->comboBoxType->currentData().toUInt());
         // XBinary::DM disasmMode = g_options.disasmMode;
 
-        if (g_pXInfoDB->getState(fileType)) {
-            XModel_XSymbol *pModel = new XModel_XSymbol(g_pXInfoDB, fileType, g_options.symbolMode, this);
+        if (m_pXInfoDB->getState(fileType)) {
+            XModel_XSymbol *pModel = new XModel_XSymbol(m_pXInfoDB, fileType, m_options.symbolMode, this);
 
             ui->tableViewSymbols->setCustomModel(pModel, true);
             // XBinary::MODE modeAddress = XBinary::getModeOS();
@@ -86,7 +86,7 @@ void XSymbolsWidget::reloadData(bool bSaveSelection)
 
 void XSymbolsWidget::_hex()
 {
-    if (g_options.bMenu_Hex) {
+    if (m_options.bMenu_Hex) {
         qint32 nRow = ui->tableViewSymbols->currentIndex().row();
 
         if (nRow != -1) {
@@ -102,7 +102,7 @@ void XSymbolsWidget::_hex()
 
 void XSymbolsWidget::_disasm()
 {
-    if (g_options.bMenu_Disasm) {
+    if (m_options.bMenu_Disasm) {
         qint32 nRow = ui->tableViewSymbols->currentIndex().row();
 
         if (nRow != -1) {
@@ -186,7 +186,7 @@ void XSymbolsWidget::analyze()
     XInfoDBTransfer infoTransfer;
     XDialogProcess dialogTransfer(this, &infoTransfer);
     dialogTransfer.setGlobal(getShortcuts(), getGlobalOptions());
-    infoTransfer.setData(g_pXInfoDB, XInfoDBTransfer::COMMAND_ANALYZEALL, options, dialogTransfer.getPdStruct());
+    infoTransfer.setData(m_pXInfoDB, XInfoDBTransfer::COMMAND_ANALYZEALL, options, dialogTransfer.getPdStruct());
     dialogTransfer.start();
     dialogTransfer.showDialogDelay();
 }
@@ -199,11 +199,11 @@ void XSymbolsWidget::on_tableViewSymbols_customContextMenuRequested(const QPoint
 
     getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableViewSymbols);
 
-    if (g_options.bMenu_Hex) {
+    if (m_options.bMenu_Hex) {
         getShortcuts()->_addMenuItem(&listMenuItems, X_ID_TABLE_FOLLOWIN_HEX, this, SLOT(_hex()), XShortcuts::GROUPID_FOLLOWIN);
     }
 
-    if (g_options.bMenu_Disasm) {
+    if (m_options.bMenu_Disasm) {
         getShortcuts()->_addMenuItem(&listMenuItems, X_ID_TABLE_FOLLOWIN_DISASM, this, SLOT(_disasm()), XShortcuts::GROUPID_FOLLOWIN);
     }
 
