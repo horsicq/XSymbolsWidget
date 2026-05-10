@@ -86,9 +86,9 @@ void DialogBookmarks::reload()
             QTableWidgetItem *pItem = new QTableWidgetItem;
             QString sLocation = XBinary::valueToHexEx(listRecord.at(i).nLocation);
             if (listRecord.at(i).locationType == XBinary::LT_ADDRESS) {
-                sLocation = QString("%1: %2").arg(tr("Address"), sLocation);
+                sLocation = QString("%1: %2").arg(tr("Address")).arg(sLocation);
             } else if (listRecord.at(i).locationType == XBinary::LT_OFFSET) {
-                sLocation = QString("%1: %2").arg(tr("Offset"), sLocation);
+                sLocation = QString("%1: %2").arg(tr("Offset")).arg(sLocation);
             }
 
             pItem->setText(sLocation);
